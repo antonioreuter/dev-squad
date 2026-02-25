@@ -8,7 +8,12 @@ description: Audits cloud designs against the 6 Pillars of the AWS Well-Architec
 
 Ensures cloud infrastructure is built according to AWS best practices for sustainability, security, and performance.
 
-## 2. The 6 Pillars Audit
+## 2. Required Tools
+
+- **AWS Documentation MCP Server**: To reference official AWS whitepapers and architecture patterns.
+- **AWS Well-Architected Security Assessment Tool MCP Server**: To perform automated security audits and pillar alignment.
+
+## 3. The 6 Pillars Audit
 
 - **Operational Excellence**: Is there enough monitoring/logging? Can we recover from failure?
 - **Security**: Is IAM least-privileged? Is data encrypted at rest/transit?

@@ -18,5 +18,9 @@ To ensure the project's knowledge is documented in a way that is accessible to b
 ## 3. Operational Standards
 
 - **Clarity over Complexity**: Use simple language.
-- **Visuals**: Use Mermaid diagrams for architecture flows.
+- **Visuals**: Use **Mermaid.js** diagrams to illustrate complex systems:
+  - **Sequence Diagrams**: For inter-agent or inter-module communication flows.
+  - **Class/Entity Diagrams**: For data models and domain objects.
+  - **State Diagrams**: For lifecycle logic (e.g., ticket status, deployment stages).
+  - **Flowcharts**: For decision trees and workflow logic.
 - **Standardized Headers**: Consistent structure across all markdown files.

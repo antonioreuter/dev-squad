@@ -53,6 +53,10 @@ Rules are behavioral constraints that are **always active** — your AI agent re
 
 You never explicitly "call" a rule. They are the squad's shared operating principles.
 
+### 🔌 Tools & MCP (Skill-Owned)
+
+In DevSquad, Tools (like MCP Servers) are not owned by Agents, but by **Skills**. An Agent is authorized to use a tool only if it has adopted a Skill that requires it. This minimizes context bloat and ensures the AI focuses only on the tools relevant to its current task.
+
 ### 🛠️ Skills (On-Demand)
 
 Skills are **specialist capabilities** you invoke when you need them. They are triggered by describing what you want, or by referencing the skill name in your prompt. Examples:
@@ -179,10 +183,10 @@ The canonical source of truth remains the `.devsquad/` directory regardless of I
 ```
 your-project/
   .devsquad/
-    rules/       ← 14 always-on behavioral rules
-    skills/      ← 11 on-demand specialist capabilities
-    workflows/   ← 6 orchestration scripts (squad.*)
-    mcp.json     ← Extensibility to external tools (if selected)
+    rules/       ← 16 always-on behavioral rules (Agents + Standards)
+    skills/      ← 13 on-demand specialist capabilities
+    workflows/   ← 7 orchestration scripts (squad.*)
+    mcp.json     ← Extensibility to external tools (Skill-centric mapping)
 ```
 
 ### Step 5 — Verify Installation
@@ -210,11 +214,18 @@ Every agent has a **sovereign domain** and **MUST NOT** extrapolate into others.
 
 ### 🏗️ Architecture & Engineering
 
-| Role                   | Domain                                        | Mindset                                   |
-| ---------------------- | --------------------------------------------- | ----------------------------------------- |
-| **Solution Architect** | System design, hexagonal architecture, ADRs   | "Will this hold at 10x scale?"            |
-| **Lead Developer**     | Code execution, layer-by-layer implementation | Rules-first, then code                    |
-| **DevOps SRE**         | CI/CD, observability, incident response       | "If it's not monitored, it doesn't exist" |
+| Role                   | Domain                                        | Mindset                        |
+| ---------------------- | --------------------------------------------- | ------------------------------ |
+| **Solution Architect** | System design, hexagonal architecture, ADRs   | "Will this hold at 10x scale?" |
+| **Lead Developer**     | Code execution, layer-by-layer implementation | Rules-first, then code         |
+
+### ☁️ Cloud & Data Specialist Cluster
+
+| Role                        | Domain                                  | Mindset                                      |
+| --------------------------- | --------------------------------------- | -------------------------------------------- |
+| **AWS Specialist**          | VPC, IAM, Compute, Well-Architected     | Infrastructure-as-Code and cloud resiliency. |
+| **AWS Database Specialist** | DSQL, RDS, DynamoDB, S3, Data Pipelines | "Access patterns first. Durability is king." |
+| **DevOps SRE**              | CI/CD, observability, incident response | "If it's not monitored, it doesn't exist"    |
 
 ### 🛡️ Safety & Governance
 
@@ -349,10 +360,12 @@ Invoke any skill by describing what you need or naming the skill explicitly.
 
 ### 📐 Architecture & Cloud
 
-| Skill                       | When to use                           | Example prompt                                           |
-| --------------------------- | ------------------------------------- | -------------------------------------------------------- |
-| `well-architected-reviewer` | Before a major infrastructure change. | `"Review this CDK stack against the 6 AWS pillars"`      |
-| `cost-estimator`            | New AWS resources being introduced.   | `"Estimate the monthly cost of this new Aurora cluster"` |
+| Skill                          | When to use                            | Example prompt                                           |
+| ------------------------------ | -------------------------------------- | -------------------------------------------------------- |
+| **cloud-infra-designer**       | Designing VPCs, IAM, or Compute logic. | `"Design a multi-region VPC using cloud-infra-designer"` |
+| **database-storage-architect** | Designing schemas, S3 or DSQL patterns | `"Design a DynamoDB schema for our order module"`        |
+| **well-architected-reviewer**  | Before major infrastructure changes.   | `"Review this CDK stack against the 6 AWS pillars"`      |
+| **cost-estimator**             | New AWS resources being introduced.    | `"Estimate the monthly cost of this new Aurora cluster"` |
 
 ### 🛠️ Execution
 
@@ -364,9 +377,9 @@ Invoke any skill by describing what you need or naming the skill explicitly.
 
 ### 📝 Documentation
 
-| Skill              | When to use                             | Example prompt                                    |
-| ------------------ | --------------------------------------- | ------------------------------------------------- |
-| `technical-writer` | Writing READMEs, ADRs, or post-mortems. | `"Write an ADR for our FHIR versioning decision"` |
+| Skill              | When to use                             | Example prompt                                   |
+| ------------------ | --------------------------------------- | ------------------------------------------------ |
+| `technical-writer` | Writing READMEs, ADRs, or post-mortems. | `"Write an ADR with Mermaid UML for FHIR logic"` |
 
 ---
 

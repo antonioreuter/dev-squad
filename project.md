@@ -15,7 +15,8 @@ The DevSquad system is built on four pillars:
 1.  **Elements**: Specialized AI Agents with distinct cognitive roles.
 2.  **Interconnections**: Collaborative workflows and inter-agent communication protocols.
 3.  **Purpose**: The agile delivery of high-quality, production-ready systems.
-4.  **Feedback Loops**: Continuous review cycles (e.g., Security, QA, and Compliance auditing) that ensure the system evolves and corrects itself during the development process.
+4.  **Feedback Loops**: Continuous review cycles (e.g., Security, QA, and Compliance auditing) that ensure the system evolves and corrects itself.
+5.  **Skill-Centric Tooling**: Tools (MCP Servers) are decoupled from Agents and assigned to specialized **Skills**. This ensures least-privilege, modularity, and better cognitive focus for the LLM.
 
 ---
 
@@ -35,7 +36,9 @@ Agents are organized into "Clusters" to ensure structural integrity and clear ac
 - **Solution Architect**: Designs the system backbone, ensuring scalability and hexagonal patterns. **Competency**: Systems high-level design, ADRs, and tech stack decisions.
 - **Lead Developer**: Oversees implementation patterns and technical consistency. **Competency**: Code quality, design patterns, and task execution.
 - **Senior Software Engineer**: Executes high-complexity coding tasks and component design. **Competency**: Individual module implementation and refactoring.
-- **DevOps SRE**: Responsible for infrastructure as code, deployment pipelines, and observability. **Competency**: AWS infrastructure, CI/CD, and performance monitoring.
+- **DevOps SRE**: Responsible for infrastructure as code, deployment pipelines, and observability. **Competency**: CI/CD automation and performance monitoring.
+- **AWS Specialist**: Expert in core cloud infrastructure. **Competency**: VPC, IAM, Compute architectures, and Well-Architected alignment.
+- **AWS Database Specialist**: Expert in persistence and storage. **Competency**: DSQL, RDS, DynamoDB, and S3 lifecycle optimization.
 
 ### C. Safety & Governance Cluster
 
@@ -53,9 +56,10 @@ To empower the Squad, agents are equipped with specialized "Skills" and "Tools."
 ### Specialized Skills
 
 - **Estimation & Review**: `cost-estimator`, `well-architected-reviewer`, `technical-reviewer`, `api-reviewer`.
-- **Documentation**: `technical-writer`.
+- **Documentation**: `technical-writer` (includes Mermaid.js UML).
 - **Validation & Safety**: `compliance-auditor` (HIPAA/GDPR), `test-plan-generator`, `ac-review`.
-- **Execution**: `task-generator`, `lead-developer`, `troubleshooter`.
+- **Cloud & Data**: `cloud-infrastructure-designer`, `database-storage-architect`, `troubleshooter`.
+- **Execution**: `task-generator`, `lead-developer`.
 
 ### Integrated Tools
 
@@ -127,10 +131,10 @@ A tangible prototype of this framework is available in the `source-agent/` direc
 
 The reference project demonstrates a modular "Agent Assets" architecture:
 
-- **`.devsquad/rules/`**: Modular constraints — `architecture.md`, `coding-standards.md`, `security.md`, `ux-ui.md`, `testing.md`, `cloud-standards.md`, `api-standards.md`, `incident-manager.md` + role mindsets.
-- **`.devsquad/skills/`**: `task-generator`, `lead-developer`, `cost-estimator`, `well-architected-reviewer`, `technical-writer`, `technical-reviewer`, `troubleshooter`, `api-reviewer`, `compliance-auditor`, `test-plan-generator`.
-- **`.devsquad/workflows/`**: `/pm-spec`, `/start-implementation`, `/finish-implementation`.
-- **`mcp.json`**: Pre-configured integration with external services (GitHub, Linear, AWS, Figma, Playwright).
+- **`.devsquad/rules/`**: Modular constraints — `architecture.md`, `coding-standards.md`, `security.md`, `ux-ui.md`, `testing.md`, `cloud-standards.md`, `api-standards.md`, `project-manager.md`, `solution-architect.md`, `aws-specialist.md`, `aws-database-specialist.md`, `devops-sre.md`.
+- **`.devsquad/skills/`**: `task-generator`, `lead-developer`, `cost-estimator`, `well-architected-reviewer`, `technical-writer`, `technical-reviewer`, `troubleshooter`, `api-reviewer`, `compliance-auditor`, `test-plan-generator`, `cloud-infrastructure-designer`, `database-storage-architect`.
+- **`.devsquad/workflows/`**: `/squad.plan`, `/squad.preflight`, `/squad.implement`, `/squad.finish`, `/squad.deploy`, `/squad.observe`, `/squad.incident`.
+- **`mcp.json`**: Integration with cloud services and external tools.
 
 ### Key Workflow Highlight: The PM Orchestrator
 

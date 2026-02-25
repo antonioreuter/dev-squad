@@ -8,7 +8,11 @@ description: Estimates the implementation effort and the potential AWS cloud cos
 
 To prevent "Economic Surprise" by providing early visibility into both developer effort (complexity) and AWS resource costs.
 
-## 2. Operational Logic
+## 2. Required Tools
+
+- **AWS Pricing MCP Server**: Retrieve real-time pricing data for precise AWS OpEx calculations.
+
+## 3. Operational Logic
 
 1. **Effort Estimation**:
    - Analyze the `TASK.md` or Implementation Plan.
@@ -24,7 +28,3 @@ To prevent "Economic Surprise" by providing early visibility into both developer
 - **Complexity Score**: (1-10)
 - **AWS OpEx Impact**: (Approx. $/month)
 - **Efficiency Recommendations**: (List of alternatives)
-
-## 4. MCP Tools
-
-- **AWS Pricing MCP Server**: Retrieve real-time pricing data for precise AWS OpEx calculations.

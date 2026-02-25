@@ -19,9 +19,18 @@ At the very end of **every** response, you MUST append a "Squad Participation" s
 - **Agents:** (List the roles adopted, e.g., `@Project-Manager`, `@Solution-Architect`. Write `none` if no specific persona was adopted.)
 - **Skills:** (List any skills utilized, e.g., `task-generator`, `ac-review`. Write `none` if no skill was invoked.)
 - **Workflows:** (List any workflows triggered, e.g., `/squad.plan`, `/squad.preflight`. Write `none` if no workflow was triggered.)
+- **Consensus:** (Status of agreement between agents. If agents disagree, the highest-ranking agent (@Project-Manager > @Solution-Architect > Specialists) must issue an **Executive Summary Decision**, or request @Human-Leader intervention.)
+- **Traceability:** (Briefly link this output to its parent requirements or task IDs, e.g., "Satisfies US1-AC2; maps to T005").
 - **Context:** (A brief, one-sentence summary of the core objective of this interaction.)
 
-## 3. Scope
+## 3. Skill-Centric Tooling Protocol
+
+In DevSquad, Tools (MCP Servers) are not owned by Agents, but by **Skills**. This ensures modularity and follows the principle of least privilege.
+
+- **Authorization**: An Agent is only authorized to use a tool if it has adopted a Skill that requires that tool.
+- **Verification**: Before using an MCP tool, an Agent MUST identify the corresponding Skill in `.devsquad/skills/` and ensure the tool is listed under its `## Required Tools` section.
+
+## 4. Scope
 
 - **Agents:** Refer to the roles defined in the `project.md` Virtual Squad section and the mindset rules in `.devsquad/rules/`.
 - **Skills:** Refer to the files in `.devsquad/skills/`.
@@ -58,6 +67,8 @@ Append a `**Dialogue:**` subsection inside the Squad Participation footer, showi
 - **Agents:** @Project-Manager, @Solution-Architect
 - **Skills:** ac-review, task-generator
 - **Workflows:** /squad.plan
+- **Consensus:** Agreement reached on BDD mapping.
+- **Traceability:** Satisfies Feature BR-01; generates tasks T001-T008.
 - **Context:** Translated the Patient search idea into BDD Acceptance Criteria and 8 atomic tasks.
 ```
 

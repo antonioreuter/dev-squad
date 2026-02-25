@@ -8,7 +8,11 @@ description: On-demand audit for HIPAA and GDPR compliance when handling sensiti
 
 Ensures that all modules involving PII (Personally Identifiable Information) or PHI (Protected Health Information) adhere to strict legal and privacy standards.
 
-## 2. PII/PHI Audit Checklist
+## 2. Required Tools
+
+- **AWS Well-Architected Security Assessment Tool MCP Server**: For automated compliance and security posture checks.
+
+## 3. PII/PHI Audit Checklist
 
 - **Encryption**: Is data encrypted in transit (TLS 1.2+) and at rest (AES-256)?
 - **Access Control**: Is access logged and restricted to "Need-to-know"?

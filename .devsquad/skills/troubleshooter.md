@@ -8,7 +8,12 @@ description: Specialized in Root Cause Analysis (RCA) and debugging complex syst
 
 To rapidly identify and propose fixes for bugs and performance bottlenecks.
 
-## 2. RCA Protocol
+## 2. Required Tools
+
+- **CloudWatch MCP Server**: To query logs, metrics, and manage alarms during incident response.
+- **CloudWatch Application Signals MCP Server**: To analyze SLOs, services, and distributed tracing.
+
+## 3. RCA Protocol
 
 1. **Observation**: Gather logs, error messages, and context.
 2. **Hypothesis Generation**: List 3-5 possible causes for the behavior.

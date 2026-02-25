@@ -47,11 +47,25 @@ def ask_model():
         ]
     ).ask()
 
+def create_file_safely(target_file: Path, content: str):
+    if target_file.exists():
+        console.print(f"[yellow]File {target_file} already exists. Skipping to avoid overwriting your settings.[/]")
+    else:
+        target_file.parent.mkdir(parents=True, exist_ok=True)
+        target_file.write_text(content, encoding="utf-8")
+        console.print(f"[green]✓ Created {target_file}[/]")
+
+def print_architecture_brief():
+    console.print("\n[yellow bold]Architecture Note: Skill-Centric Tooling[/]")
+    console.print("DevSquad decouples tools (MCP Servers) from Agents and assigns them to [bold]Skills[/].")
+    console.print("This ensures modularity and follows the principle of least privilege.")
+    console.print("-" * 56)
+
 def ask_mcp():
     return questionary.checkbox(
-        "Step 4: Select MCP Servers to Enable (Space to select, Enter to confirm)",
+        "Step 4: Select MCP Servers to Enable (These will be mapped to specialized Skills)",
         choices=[
-            "AWS Documentation MCP Server",
+            questionary.Choice("AWS Documentation MCP Server", checked=True),
             "AWS IaC MCP Server",
             "AWS Lambda MCP Server",
             "AWS Serverless MCP Server",
@@ -66,14 +80,6 @@ def ask_mcp():
             "AWS CloudFormation MCP Server"
         ]
     ).ask()
-
-def create_file_safely(target_file: Path, content: str):
-    if target_file.exists():
-        console.print(f"[yellow]File {target_file} already exists. Skipping to avoid overwriting your settings.[/]")
-    else:
-        target_file.parent.mkdir(parents=True, exist_ok=True)
-        target_file.write_text(content, encoding="utf-8")
-        console.print(f"[green]✓ Created {target_file}[/]")
 
 POINTER_CONTENT = """# DevSquad Framework Base Context
 
@@ -332,6 +338,7 @@ def main():
         model = ask_model()
         if not model: return
         
+        print_architecture_brief()
         mcp = ask_mcp()
         if mcp is None: return
         
