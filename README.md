@@ -72,9 +72,9 @@ graph LR
     end
 
     %% Interactions
+    PM -- "Consults" --> PO
     PM -- "Orchestrates" --> SA
     PM -- "Orchestrates" --> QA
-    PO -- "Consults" --> PM
     SA -- "Orchestrates" --> AWS
     SA -- "Orchestrates" --> DB
     LD -- "Consults" --> SA
@@ -155,7 +155,19 @@ DevSquad sequences agents through four synchronous milestones:
 
 ### 1. Install via UV
 
-Install the DevSquad CLI globally to enable the `dev-squad` command in any project:
+Install the DevSquad CLI globally to enable the `dev-squad` command in any target directory.
+
+#### 🌐 From Remote Repository (Recommended)
+
+You can install DevSquad directly from GitHub without cloning the repo:
+
+```bash
+uv tool install "git+https://github.com/[YOUR_ORG]/dev-squad.git#subdirectory=dev-squad-cli"
+```
+
+#### 📂 From Local Source
+
+If you have the repository cloned locally:
 
 ```bash
 uv tool install ./dev-squad-cli
