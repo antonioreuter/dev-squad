@@ -173,6 +173,20 @@ If you have the repository cloned locally:
 uv tool install ./dev-squad-cli
 ```
 
+### 🔄 How to Update
+
+To ensure you have the latest agents, skills, and installation logic, upgrade the tool using:
+
+```bash
+uv tool upgrade dev-squad
+```
+
+_Note: If you installed directly from Git, you can force an update of the specific revision:_
+
+```bash
+uv tool install --force "git+https://github.com/antonioreuter/dev-squad.git#subdirectory=dev-squad-cli"
+```
+
 Once installed, simply run the wizard from the root of your target project:
 
 ```bash
