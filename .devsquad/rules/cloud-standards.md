@@ -23,7 +23,7 @@ Defines the standards for cloud resource selection, configuration, and structura
 
 ## 3. Configuration Best Practices
 
-- **Infrastructure as Code (IaC)**: 100% adherence to **AWS CDK** or **Terraform**. No manual console changes.
+- **Infrastructure as Code (IaC)**: 100% adherence to **AWS CDK**, **AWS SAM**, **Serverless Framework**, or **Terraform**. No manual console changes.
 - **Tagging**: Every resource MUST have `Project`, `Environment`, and `Owner` tags.
 - **Network Security**: Databases and internal services MUST sit in **Private Subnets**. Only ALBs/CloudFront should be public.
 
