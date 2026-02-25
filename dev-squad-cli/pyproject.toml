@@ -1,0 +1,13 @@
+[project]
+name = "dev-squad"
+version = "0.2.0"
+description = "DevSquad Installer Wizard"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "rich>=13.0.0",
+    "questionary>=2.0.0",
+]
+
+[project.scripts]
+dev-squad = "dev_squad.cli:main"
