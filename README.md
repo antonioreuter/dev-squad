@@ -87,6 +87,14 @@ uv run dev_squad
 - `/squad.finish` — Final verification against all quality and safety gates.
 - `/squad.help` — List all available agents, skills, and slash commands.
 
+### 3. Ad-hoc Agent Engagement
+
+While workflows provide structure, you can engage any specialist individually by **@mentioning** them in your prompt.
+
+- **Entry Point Context**: The mentioned agent becomes the primary owner of the request.
+- **Autonomous Collaboration**: If the request touches on other domains, the entry-point agent will maintain the "Human-in-the-Loop" experience while autonomously consulting peer specialists (e.g., a Solution Architect pulling in a Security Engineer for a firewall review).
+- **Example**: `@Solution-Architect, what are the trade-offs of using Aurora DSQL for this feature?`
+
 ---
 
 ### 🤝 Squad Participation
