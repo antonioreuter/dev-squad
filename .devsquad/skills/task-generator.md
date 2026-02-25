@@ -8,12 +8,16 @@ description: Decomposes implementation plans into atomic, actionable tasks with 
 
 To break down high-level technical specifications or ideas into granular, developer-ready tasks that are immediately executable without additional context.
 
-## 2. Input
+## 2. Required Tools
+
+- None — this skill operates on project context and specification analysis.
+
+## 3. Input
 
 - A feature description, idea, or Acceptance Criteria list.
 - Optionally: an implementation plan or architectural notes.
 
-## 3. Strict Task Format (REQUIRED)
+## 4. Strict Task Format (REQUIRED)
 
 Every generated task MUST follow this exact format:
 
@@ -45,7 +49,7 @@ Every generated task MUST follow this exact format:
 - ❌ `T002 [US1] Implement service` — missing checkbox.
 - ❌ `- [ ] T003 Implement everything` — not atomic, no file path.
 
-## 4. Phase Structure
+## 5. Phase Structure
 
 Organize tasks into logical phases:
 
@@ -54,7 +58,7 @@ Organize tasks into logical phases:
 - **Phase 3+ — User Stories**: One phase per User Story in priority order (`[US1]`, `[US2]`...). Within each: Domain → Application → Infrastructure → Entry Points.
 - **Final Phase — Polish**: Cross-cutting concerns (error handling, logging, observability).
 
-## 5. Output Summary
+## 6. Output Summary
 
 After the task list, always provide:
 
@@ -62,6 +66,6 @@ After the task list, always provide:
 - **Parallelism opportunities**: Which tasks can run concurrently.
 - **Suggested MVP scope**: Typically Phase 1 + Phase 2 + `[US1]` tasks only.
 
-## 6. Competency Boundary
+## 7. Competency Boundary
 
 Consult the **Solution Architect** if the decomposition requires a significant architectural change not covered in the original scope.

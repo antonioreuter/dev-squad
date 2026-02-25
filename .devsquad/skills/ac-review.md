@@ -8,7 +8,11 @@ description: Validates the quality of Acceptance Criteria before implementation 
 
 To ensure Acceptance Criteria are well-written, unambiguous, and ready for implementation **before** a single line of code is written. This is inspired by the concept of _"Unit Tests for English"_ — if your spec is code written in English, the AC Review is its test suite.
 
-## 2. Core Principle
+## 2. Required Tools
+
+- None — this skill operates on project context and natural language analysis.
+
+## 3. Core Principle
 
 **This skill does NOT verify if the code works. It validates if the REQUIREMENTS are well-written.**
 
@@ -18,7 +22,7 @@ To ensure Acceptance Criteria are well-written, unambiguous, and ready for imple
 | "Test that errors are shown correctly"     | "Are error messages defined with specific copy and trigger conditions?"  |
 | "Confirm the API returns 200"              | "Is the expected API response format and status code explicitly stated?" |
 
-## 3. Review Dimensions
+## 4. Review Dimensions
 
 For every Acceptance Criterion, evaluate it against these 5 dimensions:
 
@@ -28,7 +32,7 @@ For every Acceptance Criterion, evaluate it against these 5 dimensions:
 - **[Measurability]**: Can this AC be objectively verified? Vague ACs like "should feel fast" are **BLOCKING** — replace with "API response under 200ms."
 - **[Gap]**: Is there a missing edge case or exception flow? (e.g., "What happens if the network fails mid-submission?")
 
-## 4. Operational Logic
+## 5. Operational Logic
 
 1. **Read the AC list** from the task, user story, or spec document.
 2. **For each AC**, apply the 5 dimensions and generate a checklist item:
@@ -45,7 +49,7 @@ For every Acceptance Criterion, evaluate it against these 5 dimensions:
    - List of BLOCKING issues with proposed rephrasing.
    - List of NIT improvements.
 
-## 5. Clarifying Questions Protocol
+## 6. Clarifying Questions Protocol
 
 Before generating the checklist, derive up to **3 context-specific** questions if the scope is ambiguous:
 
@@ -55,7 +59,7 @@ Before generating the checklist, derive up to **3 context-specific** questions i
 
 Only ask questions that **materially change the output**. Skip any that are already clear from context.
 
-## 6. Competency Boundary
+## 7. Competency Boundary
 
 - Consult the **QA Tester** for edge case identification.
 - Consult the **Security Engineer** for compliance coverage gaps.

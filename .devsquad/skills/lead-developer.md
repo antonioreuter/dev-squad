@@ -56,7 +56,7 @@ No anemic models. Entities MUST guard their invariants and expose behavioral met
 - Consult the **UX/UI Designer** for visual and interaction implementation details.
 - Consult the **Security Engineer** for any AuthN/AuthZ or data privacy concerns.
 
-## 5. MCP Tools
+## 5. Required Tools
 
 - **AWS Lambda MCP Server**: For writing, testing, and debugging Lambda handler code.
 - **AWS Serverless MCP Server**: To interact with API Gateway, SAM, and Serverless Framework configurations.

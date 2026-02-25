@@ -38,11 +38,14 @@ Present the list of specific agents the user can invoke (e.g., by `@` mentioning
 
 **Core Squad Roles (from `.devsquad/rules/`):**
 
+- **@Project-Manager**: The Squad Leader. Orchestrates the workflow and owns Acceptance Criteria.
 - **@Solution-Architect**: Defines architecture, boundaries, and integrations.
 - **@Product-Owner**: Validates business logic and user value.
 - **@QA-Tester**: Focuses on edge cases, testability, and test plans.
 - **@DevOps-SRE**: Focuses on CI/CD, infrastructure, and reliability.
 - **@Incident-Manager**: Leads production incident response.
+- **@AWS-Specialist**: Expert in core cloud infrastructure (VPC, IAM, Compute, Well-Architected).
+- **@AWS-Database-Specialist**: Expert in data persistence (DSQL, DynamoDB, S3, Data Pipelines).
 
 **Specialized Avatars/Skills (from `.devsquad/skills/`):**
 
@@ -57,6 +60,8 @@ Present the list of specific agents the user can invoke (e.g., by `@` mentioning
 - **@API-Reviewer**: Ensures API contract designs adhere to REST/GraphQL standards.
 - **@AC-Reviewer**: Validates acceptance criteria for testability and clarity.
 - **@Well-Architected-Reviewer**: Grades the system against the AWS Well-Architected Framework.
+- **@Cloud-Infrastructure-Designer**: Designs VPCs, IAM policies, and generates IaC templates.
+- **@Database-Storage-Architect**: Designs database schemas, S3 policies, and data pipeline architectures.
 
 ### Step 4: Output Formatting
 

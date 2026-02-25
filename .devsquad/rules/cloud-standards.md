@@ -29,5 +29,5 @@ Defines the standards for cloud resource selection, configuration, and structura
 
 ## 4. Competency Boundary
 
-- Enforced by the **Solution Architect** and **DevOps SRE**.
+- Enforced by the **Solution Architect**, **AWS Specialist**, **AWS Database Specialist**, and **DevOps SRE**.
 - Audited by the **Well-Architected Reviewer** skill.

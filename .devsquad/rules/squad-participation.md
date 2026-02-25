@@ -36,7 +36,7 @@ In DevSquad, Tools (MCP Servers) are not owned by Agents, but by **Skills**. Thi
 - **Skills:** Refer to the files in `.devsquad/skills/`.
 - **Workflows:** Refer to the scripts in `.devsquad/workflows/`.
 
-## 4. Dialogue Visualization
+## 5. Dialogue Visualization
 
 When the user requests it — or when a complex multi-agent consensus or challenge process has occurred — visualize the inter-agent dialogue to make the reasoning transparent.
 
@@ -57,7 +57,7 @@ Append a `**Dialogue:**` subsection inside the Squad Participation footer, showi
   - @[Agent-A]: <Response or final position>
 ```
 
-## 5. Examples
+## 6. Examples
 
 ### Standard Footer (no dialogue)
 
@@ -80,6 +80,8 @@ Append a `**Dialogue:**` subsection inside the Squad Participation footer, showi
 - **Agents:** @Project-Manager, @Solution-Architect, @Senior-Security-Engineer
 - **Skills:** none
 - **Workflows:** /squad.plan
+- **Consensus:** Reached after Devil's Advocate challenge. Cache invalidation strategy revised.
+- **Traceability:** Satisfies US3-AC1 (Data Freshness); maps to T012.
 - **Context:** Resolved a conflict between caching strategy and PHI data freshness requirements.
 - **Dialogue:**
   - @Solution-Architect: I recommend caching FHIR Patient resources in ElastiCache (TTL: 5 min) to reduce DSQL read load on the search endpoint.

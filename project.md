@@ -125,7 +125,7 @@ While inspired by [GitHub SpecKit](https://github.com/github/spec-kit), DevSquad
 
 ## 8. Reference Implementation: The "Source Agent" Model
 
-A tangible prototype of this framework is available in the `source-agent/` directory, specifically optimized for the **Antigravity IDE**. This reference implementation serves as a blueprint for how the Virtual Squad is configured and orchestrated.
+The canonical implementation of this framework lives in the `.devsquad/` directory, optimized for the **Antigravity IDE** but portable to any IDE via the Pointer Architecture. This reference implementation serves as a blueprint for how the Virtual Squad is configured and orchestrated.
 
 ### Core Structure
 
@@ -179,6 +179,9 @@ DevSquad does not favor a single LLM. Instead, it utilizes **Model-Tiering** bas
 - [x] Universal "Bridge Layer" for IDE Asset Translation (Installer Wizard).
 - [x] Strategy for "Sovereign Domains" & "Competency Boundaries".
 - [x] Initial Modular Mindset Rules (PM, Architect, Security, UX, QA, SRE, PO).
-- [ ] Multi-Model Provider Support (Automatic Prompt Optimization - Deferred for Zen).
-- [ ] MCP AWS Toolset & Ecosystem Integration.
+- [x] MCP AWS Toolset & Ecosystem Integration (Skill-Centric Tooling Pivot).
+- [x] AWS Specialist Cluster (Cloud & Database agents with Well-Architected alignment).
+- [x] Mermaid.js UML visualization for Technical Writer and Solution Architect.
+- [ ] Multi-Model Provider Support (Automatic Prompt Optimization per LLM).
 - [ ] Multi-IDE Plugin Marketplace.
+- [ ] Cross-repository Knowledge Items (KIs) for shared context across squad projects.
