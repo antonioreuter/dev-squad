@@ -1,82 +1,98 @@
-# DevSquad: Agentic Spec-Driven Development Platform
+# DevSquad: The Spec-Driven Multi-Agent SDLC
 
-> **Transform your AI coding assistant into a multidisciplinary virtual engineering squad.**
+> **Generic AI generates code. DevSquad orchestrates a specialized engineering team to build systems.**
 
-DevSquad is an autonomous, collaborative AI orchestration framework designed to revolutionize the software development lifecycle through **Spec-Driven Development (SDD)** and **Systems Thinking**. Unlike traditional auto-coding, DevSquad treats AI agents as a specialized "Virtual Squad" that collaborates, challenges assumptions, and enforces quality gates in real-time.
-
----
-
-## 🚀 Key Features
-
-- **Virtual Squad**: 12+ specialized agent personas (PM, Solution Architect, AWS Specialists, Security, QA, SRE) with defined sovereignty and competency boundaries.
-- **Skill-Centric Tooling**: Decouples MCP tools from agents. Authorization is granted via specialized **Skills**, ensuring least-privilege and reduced cognitive load.
-- **Collaborative Intelligence**: A mandatory **Devil's Advocate Protocol** ensures agents critique each other's designs before a single line of code is written.
-- **Decision Hierarchy**: Clear protocol for resolving deadlocks with **Executive Summary Decisions (ESD)**.
-- **Agnostic & Modular**: Works across Linux, macOS, and Windows. Optimized for **Antigravity**, **Cursor**, and **Windsurf**.
+**DevSquad** is an autonomous, collaborative AI orchestration framework. It treats AI Agents not as simple text generators, but as a multidisciplinary **Virtual Engineering Squad** constrained by **Sovereign Domains**, **Operational Logic**, and a **Mandatory Critique Protocol**.
 
 ---
 
-## 📂 Project Structure
+## 🏛️ The Philosophy: SDD & Systems Thinking
 
-```bash
-.devsquad/
-├── rules/       # Always-on behavioral constraints and Agent Mindsets
-├── skills/      # On-demand specialist capabilities with associated tools
-├── workflows/   # Orchestration scripts (Plan, Implement, Deploy, Observe)
-└── mcp.json     # Integration with AWS and external toolsets
-```
+DevSquad operates on **Spec-Driven Development (SDD)**. The specification isn't just a document; it is the **Single Source of Truth** that every agent audits against.
+
+### Why this matters:
+
+- **Reduces Context Exhaustion**: Agents focus on their domain-specific rules (e.g., Security doesn't care about CSS; UX doesn't care about SQL).
+- **Enforces Architectural Integrity**: The "Solution Architect" role acts as a gatekeeper, preventing "Lazy Coding" common in generalist LLMs.
+- **Intrinsic Traceability**: Every T001 task is tied to an Acceptance Criterion, which is tied to a Business Requirement.
 
 ---
 
-## 🛠️ Quick Start
+## 🧠 Core Mechanics: Rules, Skills, & Tools
 
-### 1. Requirements
+To ensure high-fidelity execution, DevSquad decouples **Identity**, **Capability**, and **Access**.
 
-- Any AI coding assistant (Cursor, Windsurf, Claude Code, etc.)
-- [uv](https://docs.astral.sh/uv/) (Python package manager)
+### 1. Skill-Centric Tooling (The Architecture Pivot)
 
-### 2. Installation
+In DevSquad, Tools (MCP Servers) are not owned by Agents, but by **Skills**. Authorization follows a "Qualified Access" model:
 
-The DevSquad installer adapts the "Brain" to your specific IDE and OS:
+- **Decoupled Infrastructure**: An agent is only authorized to use the `Amazon DynamoDB MCP` if it has adopted the `database-storage-architect` skill for the current task.
+- **Result**: Reduced token bloat and zero "hallucinated tool" errors.
+
+### 2. The Devil's Advocate Protocol
+
+Collaboration in DevSquad is built on **Constructive Friction**. Silence is not consent.
+
+- **Mandatory Challenge**: In any multi-agent discussion (e.g., Designing a VPC), one agent MUST act as the Devil's Advocate.
+- **Example**:
+  - _@AWS-Specialist_: "I propose a public/private subnet split for the API."
+  - _@Security-Engineer (Devil's Advocate)_: "Challenge: A public subnet for the API increases the attack surface. Why not use an Internal ALB with Private Link? What's the cost-to-safety trade-off?"
+
+### 3. Decision Hierarchy & ESD
+
+When experts disagree, the system follows a clear escalation path:
+`@Human-Leader` > `@Project-Manager` (Strategy) > `@Solution-Architect` (Tech) > **Specialists**.
+If a stalemate persists, the highest-ranking agent issues an **Executive Summary Decision (ESD)**—a documented trade-off logged in the project's decision records.
+
+---
+
+## 📂 The "Pointer" Architecture
+
+DevSquad uses a **Lightweight Bridge** strategy to maintain IDE compatibility without context poisoning:
+
+1.  **The Installer**: Deploys the full orchestrator to `.devsquad/`.
+2.  **The Pointer**: Generates a small instructions file (e.g., `.cursorrules`, `.windsurfrules`) that tells the IDE: _"You are part of DevSquad. Stop guessing. Read `.devsquad/rules/` before every response."_
+3.  **Result**: Your AI stays grounded in your project's specific standards (Hexagonal Architecture, Vitest, AWS CDK).
+
+---
+
+## 🛠️ The Collaborative Workstreams ("Boards")
+
+DevSquad sequences agents through four synchronous milestones:
+
+| Board                 | Focus                  | Active Agents            | Primary Skills                             |
+| :-------------------- | :--------------------- | :----------------------- | :----------------------------------------- |
+| **1. Hardening**      | Requirements Integrity | PM, Architect, Security  | `ac-review`, `well-architected-reviewer`   |
+| **2. Decomposition**  | Atomic Tasking         | PM, Lead Dev             | `task-generator`, `cost-estimator`         |
+| **3. Implementation** | Layered Coding         | Lead Dev, AWS Specialist | `lead-developer`, `cloud-designer`         |
+| **4. Validation**     | Acceptance Audit       | QA, Security, PM         | `technical-reviewer`, `compliance-auditor` |
+
+---
+
+## 🚀 Quick Start
+
+### 1. Install via UV
+
+The installer probes your OS/IDE and adapts the brain automatically.
 
 ```bash
 cd dev-squad-cli
-uv run dev-squad
+uv run dev_squad
 ```
 
-### 3. Usage
+### 2. Trigger the Loop
 
-Trigger the collaborative loop using specialized slash commands:
-
-- `/squad.plan [idea]` — Turn a raw idea into User Stories and AC.
-- `/squad.preflight [feature]` — Run the research gate and implementation strategy.
-- `/squad.implement [task_id]` — Execute a task with full rules-first rigor and TDD.
-- `/squad.observe [service]` — Configure full observability (OTel, SLOs, Alarms).
-
----
-
-## 🏛️ Core Workflow
-
-1.  **Requirement Hardening**: The Project Manager and Solution Architect challenge your idea to find gaps.
-2.  **Task Decomposition**: Atomic, traceable tasks are generated with embedded Acceptance Criteria.
-3.  **Autonomous Execution**: Agents implement code layer-by-layer (Domain → Application → Infrastructure).
-4.  **Verification**: The QA Tester and Security Engineer audit the output against the "Test Pyramid."
-
----
-
-## 🤝 Documentation & References
-
-- [TUTORIAL.md](./TUTORIAL.md) — The complete guide to using DevSquad daily.
-- [project.md](./project.md) — The full system specification and role roster.
-- [todo.md](./todo.md) — Project roadmap and current implementation status.
+- `/squad.plan [idea]` — Turn a raw idea into hardened BDD Acceptance Criteria.
+- `/squad.implement [task_id]` — Execute a task with full TDD and architectural rigor.
+- `/squad.finish` — Final verification against all quality and safety gates.
 
 ---
 
 ### 🤝 Squad Participation
 
-- **Agents:** @Solution-Architect
+- **Agents:** @Solution-Architect, @Project-Manager
 - **Skills:** technical-writer
 - **Workflows:** none
-- **Consensus:** Agreement on the informational structure for the project entry point.
-- **Traceability:** Satisfies the final documentation requirement for the "Expansion Plan."
-- **Context:** Created the central README.md to provide a high-level overview of the framework and its "Skill-Centric" architecture.
+- **Consensus:** Rewritten to emphasize the specific mechanics of "Skill-Centric Tooling" and "Pointer Architecture."
+- **Traceability:** Final response to the documentation consistency gap.
+- **Context:** Overhauled the README.md to provide a high-value, systemic overview of the framework, moving away from bulleted lists and towards architectural depth.
