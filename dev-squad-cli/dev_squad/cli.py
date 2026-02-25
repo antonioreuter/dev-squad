@@ -8,6 +8,24 @@ from rich.console import Console
 
 console = Console()
 
+# Defined constants for normalized flag values
+IDE_CHOICES = {
+    "vscode": "VSCode",
+    "windsurf": "Windsurf",
+    "cursor": "Cursor",
+    "antigravity": "Antigravity",
+    "cli": "Terminal / CLI"
+}
+
+MODEL_CHOICES = {
+    "ide-native": "IDE Native (Built-in)",
+    "claude-code": "Claude Code",
+    "github-copilot": "GitHub Copilot",
+    "roocode": "RooCode (Cline)"
+}
+
+OS_CHOICES = ["Linux", "macOS", "Windows"]
+
 def print_header():
     console.print("\n[magenta bold]  _____             _____                       _[/]")
     console.print("[magenta bold] |  __ \\           / ____|                     | |[/]")
@@ -20,33 +38,39 @@ def print_header():
     console.print("\n[cyan]Welcome to the DevSquad Installer Wizard![/]")
     console.print("-" * 56)
 
-def ask_os():
-    return questionary.select(
-        "Step 1: Select your Operating System",
-        choices=["Linux", "macOS", "Windows"]
+def ask_project(default=None):
+    if default:
+        return default
+    return questionary.text(
+        "Step 1: Enter the project destination directory",
+        default="."
     ).ask()
 
-def ask_ide():
+def ask_os(default=None):
+    if default:
+        # Simple case-insensitive match
+        for choice in OS_CHOICES:
+            if choice.lower() == default.lower():
+                return choice
     return questionary.select(
-        "Step 2: Select your target IDE",
-        choices=[
-            "VSCode",
-            "Windsurf",
-            "Cursor",
-            "Antigravity",
-            "Terminal / CLI"
-        ]
+        "Step 2: Select your Operating System",
+        choices=OS_CHOICES
     ).ask()
 
-def ask_model():
+def ask_ide(default=None):
+    if default and default.lower() in IDE_CHOICES:
+        return IDE_CHOICES[default.lower()]
     return questionary.select(
-        "Step 3: Select your AI Model / Agent Extension",
-        choices=[
-            "IDE Native (Built-in)",
-            "Claude Code",
-            "GitHub Copilot",
-            "RooCode (Cline)"
-        ]
+        "Step 3: Select your target IDE",
+        choices=list(IDE_CHOICES.values())
+    ).ask()
+
+def ask_model(default=None):
+    if default and default.lower() in MODEL_CHOICES:
+        return MODEL_CHOICES[default.lower()]
+    return questionary.select(
+        "Step 4: Select your AI Model / Agent Extension",
+        choices=list(MODEL_CHOICES.values())
     ).ask()
 
 def create_file_safely(target_file: Path, content: str):
@@ -62,8 +86,6 @@ def print_architecture_brief():
     console.print("DevSquad decouples tools (MCP Servers) from Agents and assigns them to [bold]Skills[/].")
     console.print("This ensures modularity and follows the principle of least privilege.")
     console.print("-" * 56)
-
-# Removed ask_mcp as per requirement to enable all servers by default.
 
 POINTER_CONTENT = """# DevSquad Framework Base Context
 
@@ -85,13 +107,9 @@ Stay modular, stay strict, and protect the codebase.
 """
 
 def deploy_assets(dest_path: Path, sys_os, ide, model):
-    # Ensure root exists or deploy it
     target_dir = dest_path / ".devsquad"
     if not target_dir.exists():
         console.print(f"[blue]Brain not found. Deploying .devsquad assets to {dest_path}...[/]")
-        # Find the assets directory relative to this script
-        # During development, it might be in ../.devsquad relative to this script
-        # When installed as a package, it's in ./assets/.devsquad
         source_dir = Path(__file__).parent / "assets" / ".devsquad"
         
         if source_dir.exists():
@@ -320,28 +338,39 @@ def generate_mcp_config(dest_path: Path):
 
 def main():
     parser = argparse.ArgumentParser(description="DevSquad Installer Wizard")
-    parser.add_argument("--path", "-p", help="Destination path for installation (default: current directory)")
+    parser.add_argument("--project", "-p", help="Destination path for installation (default: asks user)")
+    parser.add_argument("--ide", help=f"Target IDE ({', '.join(IDE_CHOICES.keys())})")
+    parser.add_argument("--model", help=f"AI Model / Extension ({', '.join(MODEL_CHOICES.keys())})")
+    parser.add_argument("--os", help=f"Operating System ({', '.join([o.lower() for o in OS_CHOICES])})")
     args = parser.parse_args()
-
-    dest_path = Path(args.path or ".").resolve()
-    if not dest_path.exists():
-        console.print(f"[blue]Target path {dest_path} does not exist. Creating it...[/]")
-        dest_path.mkdir(parents=True, exist_ok=True)
 
     try:
         print_header()
-        sys_os = ask_os()
+        
+        # Project Destination (ask if not provided by flag)
+        project_dir = ask_project(default=args.project)
+        if not project_dir: return
+        dest_path = Path(project_dir).resolve()
+        
+        if not dest_path.exists():
+            console.print(f"[blue]Target path {dest_path} does not exist. Creating it...[/]")
+            dest_path.mkdir(parents=True, exist_ok=True)
+        
+        # OS
+        sys_os = ask_os(default=args.os)
         if not sys_os: return
         
-        ide = ask_ide()
+        # IDE
+        ide = ask_ide(default=args.ide)
         if not ide: return
         
-        model = ask_model()
+        # Model
+        model = ask_model(default=args.model)
         if not model: return
         
         print_architecture_brief()
         
-        console.print(f"\n[bold]Step 4: Projecting Brain Assets to {dest_path}...[/]")
+        console.print(f"\n[bold]Step 5: Projecting Brain Assets to {dest_path}...[/]")
         deploy_assets(dest_path, sys_os, ide, model)
         generate_mcp_config(dest_path)
         
