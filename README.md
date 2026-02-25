@@ -29,6 +29,68 @@ In DevSquad, Tools (MCP Servers) are not owned by Agents, but by **Skills**. Aut
 - **Decoupled Infrastructure**: An agent is only authorized to use the `Amazon DynamoDB MCP` if it has adopted the `database-storage-architect` skill for the current task.
 - **Result**: Reduced token bloat and zero "hallucinated tool" errors.
 
+#### 🏗️ Structural Architecture
+
+```mermaid
+graph TD
+    subgraph ".devsquad/"
+        R["rules/"] --> A["Agents / Personas"]
+        S["skills/"] --> Sk["Specialized Capabilities"]
+        W["workflows/"] --> C["Slash Commands"]
+    end
+
+    A -- Adopts --> Sk
+    Sk -- Requires Tool --> T["MCP Server / Tool"]
+    C -- Orchestrates --> A
+
+    style A fill:#f9f,stroke:#333,stroke-width:2px
+    style Sk fill:#bbf,stroke:#333,stroke-width:2px
+    style T fill:#dfd,stroke:#333,stroke-width:2px
+```
+
+#### 🤝 The Collaboration Network
+
+```mermaid
+graph LR
+    subgraph PSC ["Product & Strategy"]
+        PM["@Project-Manager"]
+        PO["@Product-Owner"]
+    end
+
+    subgraph AEC ["Architecture & Engineering"]
+        SA["@Solution-Architect"]
+        LD["@Lead-Developer"]
+        AWS["@AWS-Specialist"]
+        DB["@AWS-DB-Specialist"]
+        SRE["@DevOps-SRE"]
+    end
+
+    subgraph SGC ["Safety & Governance"]
+        SEC["@Security-Engineer"]
+        QA["@QA-Tester"]
+        IM["@Incident-Manager"]
+    end
+
+    %% Interactions
+    PM -- "Orchestrates" --> SA
+    PM -- "Orchestrates" --> QA
+    PO -- "Consults" --> PM
+    SA -- "Orchestrates" --> AWS
+    SA -- "Orchestrates" --> DB
+    LD -- "Consults" --> SA
+    LD -- "Consults" --> SEC
+    QA -- "Challenges" --> LD
+    SEC -- "Audits" --> SA
+    SEC -- "Audits" --> AWS
+    IM -- "Commands" --> SRE
+    IM -- "Commands" --> LD
+    SRE -- "Feeds" --> IM
+
+    style PM fill:#f96,stroke:#333
+    style SA fill:#69f,stroke:#333
+    style SEC fill:#f66,stroke:#333
+```
+
 ### 2. The Devil's Advocate Protocol
 
 Collaboration in DevSquad is built on **Constructive Friction**. Silence is not consent.
@@ -58,6 +120,26 @@ DevSquad uses a **Lightweight Bridge** strategy to maintain IDE compatibility wi
 
 ## 🛠️ The Collaborative Workstreams ("Boards")
 
+#### 🔄 Multi-Agent Collaboration Flow
+
+```mermaid
+sequenceDiagram
+    participant H as Human Leader
+    participant PM as "@Project-Manager"
+    participant SA as "@Solution-Architect"
+    participant LD as "@Lead-Developer"
+    participant QA as "@QA-Tester"
+
+    H->>PM: /squad.plan [Idea]
+    PM->>SA: Design Check (Lens Review)
+    Note over SA: DEVIL'S ADVOCATE
+    SA-->>PM: Challenge / ADR Proposal
+    PM->>H: Consensus / AC Definition
+    H->>LD: /squad.implement [Task]
+    LD->>QA: Hand-off for E2E
+    QA-->>H: Ready for Release
+```
+
 DevSquad sequences agents through four synchronous milestones:
 
 | Board                 | Focus                  | Activation / Trigger      | Primary Skills                             |
@@ -73,11 +155,16 @@ DevSquad sequences agents through four synchronous milestones:
 
 ### 1. Install via UV
 
-The installer probes your OS/IDE and adapts the brain automatically.
+Install the DevSquad CLI globally to enable the `dev-squad` command in any project:
 
 ```bash
-cd dev-squad-cli
-uv run dev_squad
+uv tool install ./dev-squad-cli
+```
+
+Once installed, simply run the wizard from the root of your target project:
+
+```bash
+dev-squad
 ```
 
 ### 2. Trigger the Loop
