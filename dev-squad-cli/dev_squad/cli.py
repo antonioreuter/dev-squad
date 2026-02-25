@@ -1,5 +1,7 @@
-import sys
+import argparse
 import json
+import shutil
+import sys
 from pathlib import Path
 import questionary
 from rich.console import Console
@@ -61,25 +63,7 @@ def print_architecture_brief():
     console.print("This ensures modularity and follows the principle of least privilege.")
     console.print("-" * 56)
 
-def ask_mcp():
-    return questionary.checkbox(
-        "Step 4: Select MCP Servers to Enable (These will be mapped to specialized Skills)",
-        choices=[
-            questionary.Choice("AWS Documentation MCP Server", checked=True),
-            "AWS IaC MCP Server",
-            "AWS Lambda MCP Server",
-            "AWS Serverless MCP Server",
-            "AWS Pricing MCP Server",
-            "CloudWatch MCP Server",
-            "CloudWatch Application Signals MCP Server",
-            "AWS Well-Architected Security Assessment Tool MCP Server",
-            "Amazon DynamoDB MCP Server",
-            "AWS Data Processing MCP Server",
-            "AWS Step Functions Tool MCP Server",
-            "AWS Network MCP Server",
-            "AWS CloudFormation MCP Server"
-        ]
-    ).ask()
+# Removed ask_mcp as per requirement to enable all servers by default.
 
 POINTER_CONTENT = """# DevSquad Framework Base Context
 
@@ -100,38 +84,46 @@ To prevent context exhaustion, your rules and workflows are NOT concatenated her
 Stay modular, stay strict, and protect the codebase.
 """
 
-def deploy_assets(sys_os, ide, model):
-    # Ensure root exists
-    if not Path(".devsquad").exists():
-        console.print("[red bold]Error: .devsquad directory not found in the current root.[/]")
-        sys.exit(1)
+def deploy_assets(dest_path: Path, sys_os, ide, model):
+    # Ensure root exists or deploy it
+    target_dir = dest_path / ".devsquad"
+    if not target_dir.exists():
+        console.print(f"[blue]Brain not found. Deploying .devsquad assets to {dest_path}...[/]")
+        # Find the assets directory relative to this script
+        # During development, it might be in ../.devsquad relative to this script
+        # When installed as a package, it's in ./assets/.devsquad
+        source_dir = Path(__file__).parent / "assets" / ".devsquad"
+        
+        if source_dir.exists():
+            shutil.copytree(source_dir, target_dir)
+            console.print("[green]✓ DevSquad brain successfully deployed.[/]")
+        else:
+            console.print("[red bold]Error: internal .devsquad assets not found in the CLI package.[/]")
+            sys.exit(1)
 
     if ide == "Antigravity":
         console.print("[green]✓ Native structure already active in .devsquad/[/]")
     elif ide == "Windsurf":
-        console.print("[blue]Projecting lightweight pointer to .windsurfrules...[/]")
-        create_file_safely(Path(".windsurfrules"), POINTER_CONTENT)
+        console.print(f"[blue]Projecting lightweight pointer to {dest_path}/.windsurfrules...[/]")
+        create_file_safely(dest_path / ".windsurfrules", POINTER_CONTENT)
     elif ide == "Cursor":
-        console.print("[blue]Projecting lightweight pointer to .cursorrules...[/]")
-        create_file_safely(Path(".cursorrules"), POINTER_CONTENT)
+        console.print(f"[blue]Projecting lightweight pointer to {dest_path}/.cursorrules...[/]")
+        create_file_safely(dest_path / ".cursorrules", POINTER_CONTENT)
     elif ide in ["VSCode", "Terminal / CLI"]:
         if model == "Claude Code":
-            console.print("[blue]Creating .claude/ directory...[/]")
-            create_file_safely(Path(".claude/devsquad.md"), POINTER_CONTENT)
+            console.print(f"[blue]Creating {dest_path}/.claude/ directory...[/]")
+            create_file_safely(dest_path / ".claude/devsquad.md", POINTER_CONTENT)
         elif model == "GitHub Copilot":
-            console.print("[blue]Creating .github/ directory...[/]")
-            create_file_safely(Path(".github/copilot-instructions.md"), POINTER_CONTENT)
+            console.print(f"[blue]Creating {dest_path}/.github/ directory...[/]")
+            create_file_safely(dest_path / ".github/copilot-instructions.md", POINTER_CONTENT)
         elif model == "RooCode (Cline)":
-            console.print("[blue]Projecting lightweight pointer to .clinerules...[/]")
-            create_file_safely(Path(".clinerules"), POINTER_CONTENT)
+            console.print(f"[blue]Projecting lightweight pointer to {dest_path}/.clinerules...[/]")
+            create_file_safely(dest_path / ".clinerules", POINTER_CONTENT)
         else:
-            console.print("[blue]Generating AGENT_INSTRUCTIONS.md...[/]")
-            create_file_safely(Path("AGENT_INSTRUCTIONS.md"), POINTER_CONTENT)
+            console.print(f"[blue]Generating {dest_path}/AGENT_INSTRUCTIONS.md...[/]")
+            create_file_safely(dest_path / "AGENT_INSTRUCTIONS.md", POINTER_CONTENT)
 
-def generate_mcp_config(mcp_choices):
-    if not mcp_choices:
-        return
-        
+def generate_mcp_config(dest_path: Path):
     mcp_config = {"mcpServers": {}}
     templates = {
         "AWS Documentation MCP Server": {
@@ -315,18 +307,27 @@ def generate_mcp_config(mcp_choices):
         }
     }
     
-    for choice in mcp_choices:
-        if choice in templates:
-            server_id = templates[choice]["id"]
-            mcp_config["mcpServers"][server_id] = templates[choice]["config"]
+    # Enable ALL servers by default
+    for choice in templates:
+        server_id = templates[choice]["id"]
+        mcp_config["mcpServers"][server_id] = templates[choice]["config"]
             
     if mcp_config["mcpServers"]:
-        target_file = Path(".devsquad/mcp.json")
-        console.print("[blue]Generating MCP Server configuration...[/]")
+        target_file = dest_path / ".devsquad" / "mcp.json"
+        console.print("[blue]Generating MCP Server configuration (Enabling all 13 servers)...[/]")
         create_file_safely(target_file, json.dumps(mcp_config, indent=2))
         console.print("[yellow]Note: You may need to link `.devsquad/mcp.json` to your IDE's specific MCP config file to activate the servers.[/]")
 
 def main():
+    parser = argparse.ArgumentParser(description="DevSquad Installer Wizard")
+    parser.add_argument("--path", "-p", help="Destination path for installation (default: current directory)")
+    args = parser.parse_args()
+
+    dest_path = Path(args.path or ".").resolve()
+    if not dest_path.exists():
+        console.print(f"[blue]Target path {dest_path} does not exist. Creating it...[/]")
+        dest_path.mkdir(parents=True, exist_ok=True)
+
     try:
         print_header()
         sys_os = ask_os()
@@ -339,14 +340,13 @@ def main():
         if not model: return
         
         print_architecture_brief()
-        mcp = ask_mcp()
-        if mcp is None: return
         
-        console.print("\n[bold]Step 5: Projecting Brain Assets...[/]")
-        deploy_assets(sys_os, ide, model)
-        generate_mcp_config(mcp)
+        console.print(f"\n[bold]Step 4: Projecting Brain Assets to {dest_path}...[/]")
+        deploy_assets(dest_path, sys_os, ide, model)
+        generate_mcp_config(dest_path)
         
         console.print(f"\n[green bold]Success! DevSquad is now configured for {sys_os}, {ide}, and {model}.[/]")
+        console.print(f"Path: [cyan]{dest_path}[/]")
         console.print("Type [cyan]/squad.plan \\[your idea][/] in your IDE/CLI to start the collaborative process.")
         console.print("-" * 56)
     except KeyboardInterrupt:

@@ -11,3 +11,9 @@ dependencies = [
 
 [project.scripts]
 dev-squad = "dev_squad.cli:main"
+
+[tool.setuptools]
+packages = ["dev_squad"]
+
+[tool.setuptools.package-data]
+dev_squad = ["assets/.devsquad/**/*", "assets/.devsquad/**/.*"]

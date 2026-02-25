@@ -162,7 +162,7 @@ Install the DevSquad CLI globally to enable the `dev-squad` command in any targe
 You can install DevSquad directly from GitHub without cloning the repo:
 
 ```bash
-uv tool install "git+https://github.com/[YOUR_ORG]/dev-squad.git#subdirectory=dev-squad-cli"
+uv tool install "git+https://github.com/antonioreuter/dev-squad.git#subdirectory=dev-squad-cli"
 ```
 
 #### 📂 From Local Source
