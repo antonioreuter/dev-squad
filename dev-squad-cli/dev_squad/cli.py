@@ -12,16 +12,13 @@ console = Console()
 IDE_CHOICES = {
     "vscode": "VSCode",
     "windsurf": "Windsurf",
-    "cursor": "Cursor",
-    "antigravity": "Antigravity",
-    "cli": "Terminal / CLI"
+    "antigravity": "Antigravity"
 }
 
 MODEL_CHOICES = {
     "ide-native": "IDE Native (Built-in)",
     "claude-code": "Claude Code",
-    "github-copilot": "GitHub Copilot",
-    "roocode": "RooCode (Cline)"
+    "github-copilot": "GitHub Copilot"
 }
 
 OS_CHOICES = ["Linux", "macOS", "Windows"]
@@ -119,27 +116,81 @@ def deploy_assets(dest_path: Path, sys_os, ide, model):
             console.print("[red bold]Error: internal .devsquad assets not found in the CLI package.[/]")
             sys.exit(1)
 
+    # 1. Base IDE pointer
     if ide == "Antigravity":
         console.print("[green]✓ Native structure already active in .devsquad/[/]")
     elif ide == "Windsurf":
         console.print(f"[blue]Projecting lightweight pointer to {dest_path}/.windsurfrules...[/]")
         create_file_safely(dest_path / ".windsurfrules", POINTER_CONTENT)
-    elif ide == "Cursor":
-        console.print(f"[blue]Projecting lightweight pointer to {dest_path}/.cursorrules...[/]")
-        create_file_safely(dest_path / ".cursorrules", POINTER_CONTENT)
-    elif ide in ["VSCode", "Terminal / CLI"]:
-        if model == "Claude Code":
-            console.print(f"[blue]Creating {dest_path}/.claude/ directory...[/]")
-            create_file_safely(dest_path / ".claude/devsquad.md", POINTER_CONTENT)
-        elif model == "GitHub Copilot":
-            console.print(f"[blue]Creating {dest_path}/.github/ directory...[/]")
-            create_file_safely(dest_path / ".github/copilot-instructions.md", POINTER_CONTENT)
-        elif model == "RooCode (Cline)":
-            console.print(f"[blue]Projecting lightweight pointer to {dest_path}/.clinerules...[/]")
-            create_file_safely(dest_path / ".clinerules", POINTER_CONTENT)
-        else:
+        
+        # Project workflows to .windsurf/workflows/ for native slash command visibility
+        windsurf_workflow_dir = dest_path / ".windsurf" / "workflows"
+        source_workflow_dir = target_dir / "workflows"
+        
+        if source_workflow_dir.exists():
+            console.print(f"[blue]Projecting native Windsurf Workflows to {windsurf_workflow_dir}...[/]")
+            if not windsurf_workflow_dir.exists():
+                windsurf_workflow_dir.mkdir(parents=True, exist_ok=True)
+            
+            for workflow_file in source_workflow_dir.glob("*.md"):
+                shutil.copy2(workflow_file, windsurf_workflow_dir / workflow_file.name)
+            console.print("[green]✓ Slash commands are now natively visible in Windsurf.[/]")
+    elif ide == "VSCode":
+        if model not in ["Claude Code", "GitHub Copilot"]:
             console.print(f"[blue]Generating {dest_path}/AGENT_INSTRUCTIONS.md...[/]")
             create_file_safely(dest_path / "AGENT_INSTRUCTIONS.md", POINTER_CONTENT)
+
+    # 2. Add Model Extension Tooling
+    if model == "Claude Code":
+        console.print(f"[blue]Creating {dest_path}/CLAUDE.md for Claude Code...[/]")
+        create_file_safely(dest_path / "CLAUDE.md", POINTER_CONTENT)
+        
+        # Project workflows to .claude/commands/ for Claude Code slash commands
+        claude_commands_dir = dest_path / ".claude" / "commands"
+        source_workflow_dir = target_dir / "workflows"
+        if source_workflow_dir.exists():
+            console.print(f"[blue]Projecting native Claude Code Commands to {claude_commands_dir}...[/]")
+            claude_commands_dir.mkdir(parents=True, exist_ok=True)
+            
+            for workflow_file in source_workflow_dir.glob("*.md"):
+                shutil.copy2(workflow_file, claude_commands_dir / workflow_file.name)
+            console.print("[green]✓ Slash commands are now natively visible in Claude Code.[/]")
+            
+    elif model == "GitHub Copilot":
+        console.print(f"[blue]Creating {dest_path}/.github/copilot-instructions.md...[/]")
+        create_file_safely(dest_path / ".github/copilot-instructions.md", POINTER_CONTENT)
+        
+        # Project workflows to .github/prompts/ for VS Code Copilot Chat
+        github_prompts_dir = dest_path / ".github" / "prompts"
+        source_workflow_dir = target_dir / "workflows"
+        if source_workflow_dir.exists():
+            console.print(f"[blue]Projecting native VS Code Copilot Prompts to {github_prompts_dir}...[/]")
+            github_prompts_dir.mkdir(parents=True, exist_ok=True)
+            
+            prompt_recommendations = {}
+            for workflow_file in source_workflow_dir.glob("*.md"):
+                shutil.copy2(workflow_file, github_prompts_dir / workflow_file.name)
+                # VS Code Copilot refers to these by filename or stem
+                prompt_recommendations[workflow_file.name] = True
+                prompt_recommendations[workflow_file.stem] = True
+            
+            # Safely update .vscode/settings.json
+            vscode_dir = dest_path / ".vscode"
+            vscode_dir.mkdir(parents=True, exist_ok=True)
+            settings_file = vscode_dir / "settings.json"
+            settings = {}
+            if settings_file.exists():
+                try:
+                    settings = json.loads(settings_file.read_text(encoding="utf-8"))
+                except json.JSONDecodeError:
+                    pass
+            
+            if "chat.promptFilesRecommendations" not in settings:
+                settings["chat.promptFilesRecommendations"] = {}
+            settings["chat.promptFilesRecommendations"].update(prompt_recommendations)
+            
+            settings_file.write_text(json.dumps(settings, indent=2), encoding="utf-8")
+            console.print("[green]✓ Slash commands are now natively visible in VS Code Copilot Chat.[/]")
 
 def generate_mcp_config(dest_path: Path):
     mcp_config = {"mcpServers": {}}

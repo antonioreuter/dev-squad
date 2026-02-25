@@ -33,14 +33,14 @@ def test_installation_windsurf_ide_native():
             data = json.load(f)
             assert len(data["mcpServers"]) == 13
 
-def test_installation_cursor_claude_code():
+def test_installation_vscode_claude_code():
     with tempfile.TemporaryDirectory() as tmp_dir:
         tmp_path = Path(tmp_dir)
         cwd = Path(__file__).parent.parent
         
         args = [
             "--project", str(tmp_path),
-            "--ide", "cursor",
+            "--ide", "vscode",
             "--model", "claude-code",
             "--os", "macos"
         ]
@@ -50,7 +50,8 @@ def test_installation_cursor_claude_code():
         
         # Verify assets
         assert (tmp_path / ".devsquad").is_dir()
-        assert (tmp_path / ".cursorrules").is_file()
+        assert (tmp_path / "CLAUDE.md").is_file()
+        assert (tmp_path / ".claude" / "commands").is_dir()
         
         # Verify MCP
         assert (tmp_path / ".devsquad" / "mcp.json").is_file()
@@ -61,12 +62,12 @@ def test_no_overwrite():
         cwd = Path(__file__).parent.parent
         
         # Pre-create a file
-        existing_pointer = tmp_path / ".cursorrules"
+        existing_pointer = tmp_path / ".windsurfrules"
         existing_pointer.write_text("don't touch me")
         
         args = [
             "--project", str(tmp_path),
-            "--ide", "cursor",
+            "--ide", "windsurf",
             "--model", "ide-native",
             "--os", "linux"
         ]
@@ -83,8 +84,8 @@ if __name__ == "__main__":
     test_installation_windsurf_ide_native()
     print("Passed!")
     
-    print("Running: test_installation_cursor_claude_code...")
-    test_installation_cursor_claude_code()
+    print("Running: test_installation_vscode_claude_code...")
+    test_installation_vscode_claude_code()
     print("Passed!")
     
     print("Running: test_no_overwrite...")
