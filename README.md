@@ -60,12 +60,12 @@ DevSquad uses a **Lightweight Bridge** strategy to maintain IDE compatibility wi
 
 DevSquad sequences agents through four synchronous milestones:
 
-| Board                 | Focus                  | Active Agents            | Primary Skills                             |
-| :-------------------- | :--------------------- | :----------------------- | :----------------------------------------- |
-| **1. Hardening**      | Requirements Integrity | PM, Architect, Security  | `ac-review`, `well-architected-reviewer`   |
-| **2. Decomposition**  | Atomic Tasking         | PM, Lead Dev             | `task-generator`, `cost-estimator`         |
-| **3. Implementation** | Layered Coding         | Lead Dev, AWS Specialist | `lead-developer`, `cloud-designer`         |
-| **4. Validation**     | Acceptance Audit       | QA, Security, PM         | `technical-reviewer`, `compliance-auditor` |
+| Board                 | Focus                  | Activation / Trigger      | Primary Skills                             |
+| :-------------------- | :--------------------- | :------------------------ | :----------------------------------------- |
+| **1. Hardening**      | Requirements Integrity | `/squad.plan [idea]`      | `ac-review`, `well-architected-reviewer`   |
+| **2. Decomposition**  | Atomic Tasking         | `task-generator` (Skill)  | `task-generator`, `cost-estimator`         |
+| **3. Implementation** | Layered Coding         | `/squad.implement [T00x]` | `lead-developer`, `cloud-designer`         |
+| **4. Validation**     | Acceptance Audit       | `/squad.finish [feature]` | `technical-reviewer`, `compliance-auditor` |
 
 ---
 
@@ -85,6 +85,7 @@ uv run dev_squad
 - `/squad.plan [idea]` — Turn a raw idea into hardened BDD Acceptance Criteria.
 - `/squad.implement [task_id]` — Execute a task with full TDD and architectural rigor.
 - `/squad.finish` — Final verification against all quality and safety gates.
+- `/squad.help` — List all available agents, skills, and slash commands.
 
 ---
 
