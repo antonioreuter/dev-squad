@@ -2,6 +2,7 @@ import argparse
 import json
 import shutil
 import sys
+import os
 from pathlib import Path
 import questionary
 from rich.console import Console
@@ -389,10 +390,10 @@ def generate_mcp_config(dest_path: Path):
                     "AWS_PROFILE": "your-aws-profile",
                     "AWS_REGION": "us-east-1",
                     "STATE_MACHINE_PREFIX": "your-state-machine-prefix",
-                    "STATE_MACHINE_LIST": "your-first-state-machine, your-second-state-machine",
+                    "STATE_MACHINE_LIST": "your-first-function, your-second-function",
                     "STATE_MACHINE_TAG_KEY": "your-tag-key",
                     "STATE_MACHINE_TAG_VALUE": "your-tag-value",
-                    "STATE_MACHINE_INPUT_SCHEMA_ARN_TAG_KEY": "your-state-machine-tag-for-input-schema"
+                    "STATE_MACHINE_INPUT_SCHEMA_ARN_TAG_KEY": "your-function-tag-for-input-schema"
                 }
             }
         },
@@ -566,8 +567,9 @@ def manage_squad(dest_path: Path):
                     console.print("[green]✓ Registered and synced in devsquad-settings.json.[/]")
                 except Exception as e:
                     console.print(f"[red]! Error updating registry: {e}[/]")
-
+            
             console.print("[yellow]Note: Remember to update project.md to reflect this change.[/]")
+
 def ask_kb(project_path: Path, default=None):
     if default:
         return default
@@ -601,14 +603,43 @@ def ask_kb(project_path: Path, default=None):
         return kb_path
     return None
 
+def cmd_scan(project_path: Path):
+    from dev_squad.scanner import RepositoryScanner
+    from dev_squad.inventory_generator import InventoryGenerator
+    
+    console.print(f"\n[bold blue]🔍 Scanning repository at {project_path}...[/]")
+    
+    scanner = RepositoryScanner(root_dir=str(project_path))
+    projects = scanner.scan()
+    
+    for metadata in projects:
+        rel_path = Path(metadata['path']).relative_to(project_path)
+        display_path = "." if str(rel_path) == "." else str(rel_path)
+        console.print(f"[green]✓ Found {metadata['language']} project at `{display_path}` ({metadata['framework']} {metadata['version']})[/]")
+        if metadata["gaps"]:
+            console.print(f"  [yellow]! Found {len(metadata['gaps'])} architectural gaps.[/]")
+        
+    generator = InventoryGenerator(project_root=str(project_path), projects_metadata=projects)
+    generator.generate()
+    
+    console.print(f"[bold green]✓ Project Inventory updated in .devsquad/knowledge/inventory/[/]\n")
+
 def main():
     parser = argparse.ArgumentParser(description="DevSquad Installer Wizard")
+    parser.add_argument("command", nargs="?", choices=["install", "scan"], default="install", help="Command to run")
     parser.add_argument("--project", "-p", help="Destination path for installation (default: asks user)")
     parser.add_argument("--ide", help=f"Target IDE ({', '.join(IDE_CHOICES.keys())})")
     parser.add_argument("--model", help=f"AI Model / Extension ({', '.join(MODEL_CHOICES.keys())})")
     parser.add_argument("--os", help=f"Operating System ({', '.join([o.lower() for o in OS_CHOICES])})")
     parser.add_argument("--kb", help="Path to Knowledge Base directory")
     args = parser.parse_args()
+
+    # Handle direct scan command
+    if args.command == "scan":
+        project_dir = args.project or os.getcwd()
+        dest_path = Path(project_dir).resolve()
+        cmd_scan(dest_path)
+        return
 
     try:
         print_header()
@@ -626,10 +657,18 @@ def main():
             # If already installed, offer Management Menu
             action = questionary.select(
                 "Project detected. What would you like to do?",
-                choices=["Manage Squad (Hire/Fire Specialists)", "Refresh/Reinstall Base Assets", "Exit"]
+                choices=[
+                    "Scan Repository & Update Inventory",
+                    "Manage Squad (Hire/Fire Specialists)", 
+                    "Refresh/Reinstall Base Assets", 
+                    "Exit"
+                ]
             ).ask()
             
             if action == "Exit": return
+            if action == "Scan Repository & Update Inventory":
+                cmd_scan(dest_path)
+                return
             if action == "Manage Squad (Hire/Fire Specialists)":
                 manage_squad(dest_path)
                 return
@@ -652,7 +691,7 @@ def main():
         
         print_architecture_brief()
         
-        console.print(f"\n[bold]Step 6: Projecting Brain Assets to {dest_path}...[/]")
+        console.print(f"\\n[bold]Step 6: Projecting Brain Assets to {dest_path}...[/]")
         deploy_assets(dest_path, sys_os, ide, model)
         generate_mcp_config(dest_path)
 
@@ -668,12 +707,12 @@ def main():
             except Exception as e:
                 console.print(f"[red]! Warning: Could not update settings with KB path: {e}[/]")
         
-        console.print(f"\n[green bold]Success! DevSquad is now configured for {sys_os}, {ide}, and {model}.[/]")
+        console.print(f"\\n[green bold]Success! DevSquad is now configured for {sys_os}, {ide}, and {model}.[/]")
         console.print(f"Path: [cyan]{dest_path}[/]")
         console.print("Type [cyan]/squad.plan \\[your idea][/] in your IDE/CLI to start the collaborative process.")
         console.print("-" * 56)
     except KeyboardInterrupt:
-        console.print("\n[yellow]Installation cancelled by user.[/]")
+        console.print("\\n[yellow]Installation cancelled by user.[/]")
         sys.exit(0)
 
 if __name__ == "__main__":

@@ -17,3 +17,8 @@ packages = ["dev_squad"]
 
 [tool.setuptools.package-data]
 dev_squad = ["assets/.devsquad/**/*", "assets/.devsquad/**/.*"]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.5",
+]
