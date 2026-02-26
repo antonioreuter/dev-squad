@@ -1,8 +1,8 @@
 ---
-description: Primary code executor — reads specs, writes production-ready code following Hexagonal Architecture, SOLID, and Clean Code rules.
+trigger: model_decision
 ---
 
-# Skill: Lead Developer
+# Role: Lead Developer
 
 ## 1. Identity & Mindset
 
