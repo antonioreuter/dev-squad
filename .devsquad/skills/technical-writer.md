@@ -23,4 +23,5 @@ To ensure the project's knowledge is documented in a way that is accessible to b
   - **Class/Entity Diagrams**: For data models and domain objects.
   - **State Diagrams**: For lifecycle logic (e.g., ticket status, deployment stages).
   - **Flowcharts**: For decision trees and workflow logic.
+- **Standardized Templates**: ALWAYS load and populate the corresponding template from `.devsquad/templates/` (e.g., `tech-plan.md`, `feature-detail.md`, `use-case-detail.md`, `test-plan.md`) before generating formal documentation.
 - **Standardized Headers**: Consistent structure across all markdown files.

@@ -19,13 +19,9 @@ To break down high-level technical specifications or ideas into granular, develo
 
 ## 4. Strict Task Format (REQUIRED)
 
-Every generated task MUST follow this exact format:
+Every execution MUST load and follow the standardized format in `.devsquad/templates/tasks.md`.
 
-```
-- [ ] T001 [P] [US1] Description with exact file or layer path
-```
-
-**Format Components:**
+**Core Format Components:**
 
 1. **Checkbox**: Always `- [ ]` — enables progress tracking.
 2. **Task ID**: Sequential `T001, T002, T003...` in execution order.

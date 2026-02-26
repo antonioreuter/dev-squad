@@ -32,6 +32,9 @@ Present the following to the `@Human-Leader`:
 - Disable entries in `.devsquad/mcp.json`.
 - **Social-Aware Cleanup**:
   - Remove the agent from `.devsquad/devsquad-settings.json`.
+  - **Template Decommissioning**:
+    - Identify templates specific to this agent (from their origin addon) and remove them from the active project.
+    - Move agent-specific templates to `.devsquad/fired/[EmployeeName]/templates/`.
   - **Social Purge**: Iterate through all remaining active agents and remove the dismissed agent from their `collaborates` list.
 - Update `project.md`:
   - Move employee to "Historical / Fired" section.

@@ -32,27 +32,27 @@ spec/
 
 ## 4. Boilerplate Templates (REQUIRED)
 
+Every execution MUST use the standardized templates located in `.devsquad/templates/` or specialist-specific overrides.
+
 ### `feature-detail.md`
 
-- **Context**: Why are we building this?
-- **User Needs**: What the user wants to achieve.
-- **Architectural Notes**: Any specific layer or pattern considerations.
+- Loads from `.devsquad/templates/feature-detail.md`.
+- Replaces placeholders with feature-specific context.
 
 ### `checklist.md` (BDD Format)
 
-- **Scenario**: Descriptive scenario name.
-- **Given/When/Then**: Clear acceptance criteria list.
+- Loads from `.devsquad/templates/checklist.md`.
+- Populates with Given/When/Then scenarios derived from the AC.
 
 ### `tasks.md`
 
-- **Atomic Tasks**: Following the `[T001] [P] [US1]` format.
-- **File Paths**: Explicit paths for implementation.
+- Loads from `.devsquad/templates/tasks.md`.
+- Populates with atomic tasks following the `[T001] [P] [US1]` format.
 
 ### `test-plan.md`
 
-- **Positive Paths**: Standard success scenarios.
-- **Negative Paths**: Error handling, invalid inputs.
-- **Boundary Conditions**: Edge cases, rate limits, max sizes.
+- Loads from `.devsquad/templates/test-plan.md`.
+- Includes positive, negative, and boundary condition paths.
 
 ## 5. Execution Logic
 

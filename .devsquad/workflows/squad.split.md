@@ -31,9 +31,9 @@ To transition from "What we are building" (Technical Plan) to "How we are struct
   - Create `spec/[feature-slug]/feature-detail.md`.
   - For each Use Case within that Feature:
     - Create `spec/[feature-slug]/[use-case-slug]/`.
-    - Generate `checklist.md` with BDD criteria from the technical plan.
-    - Generate `tasks.md` with atomic implementation steps.
-    - Generate `test-plan.md` with success, failure, and boundary cases.
+    - Generate `checklist.md` by loading `.devsquad/templates/checklist.md`.
+    - Generate `tasks.md` by loading `.devsquad/templates/tasks.md`.
+    - Generate `test-plan.md` by loading `.devsquad/templates/test-plan.md`.
 
 ### Step 4: Verification
 

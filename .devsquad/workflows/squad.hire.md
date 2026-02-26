@@ -39,6 +39,9 @@ Present the following to the `@Human-Leader`:
 - Update `.devsquad/mcp.json` with new configurations.
 - **Social-Aware Sync**:
   - Add the new specialist to `.devsquad/devsquad-settings.json` with `status: active`.
+  - **Template Deployment**:
+    - Copy global templates from `.devsquad/templates/` to the project if not present.
+    - If hiring from an addon, copy `templates/` from the addon directory to the active project.
   - **Social Update**: Iterate through existing active agents and add the new hire to their `collaborates` list if applicable.
 - Update `project.md` active squad table.
 

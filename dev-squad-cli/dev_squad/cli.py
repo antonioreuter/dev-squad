@@ -140,7 +140,7 @@ def deploy_assets(dest_path: Path, sys_os, ide, model):
         # 1. Check internal package assets (Production)
         # 2. Check repository root (Development)
         internal_src = Path(__file__).parent / "assets" / ".devsquad"
-        dev_src = Path(__file__).parent.parent.parent.parent / ".devsquad"
+        dev_src = Path(__file__).parent.parent.parent / ".devsquad"
         
         source_dir = None
         if internal_src.exists():
@@ -153,6 +153,12 @@ def deploy_assets(dest_path: Path, sys_os, ide, model):
         if source_dir:
             shutil.copytree(source_dir, target_dir, dirs_exist_ok=True)
             console.print("[green]✓ DevSquad brain successfully deployed.[/]")
+            
+            # Explicit verification for templates
+            if (source_dir / "templates").exists():
+                console.print("[green]✓ Documentation templates installed.[/]")
+            else:
+                console.print("[yellow]! Note: No documentation templates found in source brain.[/]")
         else:
             console.print("[red bold]Error: .devsquad assets not found in package or dev path.[/]")
             sys.exit(1)
@@ -562,6 +568,7 @@ def manage_squad(dest_path: Path):
                     console.print(f"[red]! Error updating registry: {e}[/]")
 
             console.print("[yellow]Note: Remember to update project.md to reflect this change.[/]")
+def main():
     parser = argparse.ArgumentParser(description="DevSquad Installer Wizard")
     parser.add_argument("--project", "-p", help="Destination path for installation (default: asks user)")
     parser.add_argument("--ide", help=f"Target IDE ({', '.join(IDE_CHOICES.keys())})")
