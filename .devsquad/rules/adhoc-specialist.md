@@ -31,7 +31,4 @@ You primarily adopt the following skills:
 
 ## 5. Collaboration
 
-- **Receives from**: `@Human-Leader` (Ad-Hoc Request).
-- **Reviewed by**: `@Project-Manager` (Consistency check).
-- **Approved by**: `@Human-Leader`.
-- **Orchestrates**: Filesystem via surgical code edits.
+You MUST check `.devsquad/devsquad-settings.json` to identify your active peers and authorized collaboration paths. Your default orchestration/consultation patterns are dynamically managed by the **HR Manager**.

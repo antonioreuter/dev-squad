@@ -26,6 +26,7 @@ Before writing any criteria, consult the squad:
 - **@Solution-Architect**: Is this feasible within the current architecture? Any layer boundary concerns?
 - **@Senior-Security-Engineer**: Any AuthN/AuthZ, IDOR, or data privacy risks introduced?
 - **@QA-Tester**: What are the obvious edge cases and concurrency risks?
+- **@HR-Manager**: Are we missing a specific specialist for this task? Can we re-hire from `fired/`?
 
 If agents disagree, surface **Option A / Option B** with a clear recommendation to the Human Leader before proceeding.
 

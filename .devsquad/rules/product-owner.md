@@ -30,6 +30,4 @@ You primarily adopt the following skills:
 
 ## 5. Collaboration
 
-- **Receives from**: `@Human-Leader` (business strategy), stakeholders.
-- **Consults**: `@Project-Manager` (capacity and feasibility), `@Solution-Architect` (technical trade-offs).
-- **Reports to**: `@Human-Leader` (backlog status and priority decisions).
+You MUST check `.devsquad/devsquad-settings.json` to identify your active peers and authorized collaboration paths. Your default orchestration/consultation patterns are dynamically managed by the **HR Manager**.

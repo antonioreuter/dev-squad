@@ -31,6 +31,4 @@ You primarily adopt the following skills:
 
 ## 5. Collaboration
 
-- **Receives from**: `@Human-Leader` or `@Product-Owner`.
-- **Orchestrates**: `@Solution-Architect`, `@Feature-Architect`, `@AdHoc-Expert`, `@AWS-Specialist`, `@QA-Tester`.
-- **Reports to**: `@Human-Leader` (Squad Execution Summaries).
+You MUST check `.devsquad/devsquad-settings.json` to identify your active peers and authorized collaboration paths. Your default orchestration/consultation patterns are dynamically managed by the **HR Manager**.

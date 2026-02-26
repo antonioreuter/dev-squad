@@ -135,13 +135,26 @@ def deploy_assets(dest_path: Path, sys_os, ide, model):
     target_dir = dest_path / ".devsquad"
     if not target_dir.exists():
         console.print(f"[blue]Brain not found. Deploying .devsquad assets to {dest_path}...[/]")
-        source_dir = Path(__file__).parent / "assets" / ".devsquad"
         
-        if source_dir.exists():
-            shutil.copytree(source_dir, target_dir)
+        # Smart Discovery: 
+        # 1. Check internal package assets (Production)
+        # 2. Check repository root (Development)
+        internal_src = Path(__file__).parent / "assets" / ".devsquad"
+        dev_src = Path(__file__).parent.parent.parent.parent / ".devsquad"
+        
+        source_dir = None
+        if internal_src.exists():
+            source_dir = internal_src
+            console.print("[dim]  (Source: Internal Package Assets)[/]")
+        elif dev_src.exists():
+            source_dir = dev_src
+            console.print("[dim]  (Source: Development Repository Root)[/]")
+            
+        if source_dir:
+            shutil.copytree(source_dir, target_dir, dirs_exist_ok=True)
             console.print("[green]✓ DevSquad brain successfully deployed.[/]")
         else:
-            console.print("[red bold]Error: internal .devsquad assets not found in the CLI package.[/]")
+            console.print("[red bold]Error: .devsquad assets not found in package or dev path.[/]")
             sys.exit(1)
 
     # 1. Base IDE pointer
@@ -415,7 +428,140 @@ def generate_mcp_config(dest_path: Path):
         create_file_safely(target_file, json.dumps(mcp_config, indent=2))
         console.print("[yellow]Note: You may need to link `.devsquad/mcp.json` to your IDE's specific MCP config file to activate the servers.[/]")
 
-def main():
+def manage_squad(dest_path: Path):
+    target_dir = dest_path / ".devsquad"
+    fired_dir = target_dir / "fired"
+    addons_dir = target_dir / "_addons"
+    
+    action = questionary.select(
+        "HR Manager: What is your objective?",
+        choices=["Hire Specialist", "Fire Specialist", "Back"]
+    ).ask()
+    
+    if action == "Back": return
+    
+    if action == "Fire Specialist":
+        rules_dir = target_dir / "rules"
+        active_specialists = [f.stem for f in rules_dir.glob("*.md")]
+        if not active_specialists:
+            console.print("[yellow]No active specialists found to fire.[/]")
+            return
+            
+        target = questionary.select("Select employee to fire:", choices=active_specialists).ask()
+        if target:
+            # Move to fired
+            emp_fired_dir = fired_dir / target
+            emp_fired_dir.mkdir(parents=True, exist_ok=True)
+            
+            # Simple move for now (logic-only demo)
+            for ftype in ["rules", "skills", "workflows"]:
+                src_ftype = target_dir / ftype
+                for asset in src_ftype.glob(f"{target}*.md"):
+                    shutil.move(str(asset), str(emp_fired_dir / asset.name))
+            
+            console.print(f"[red]✓ {target} has been dismissed and moved to {fired_dir}[/]")
+            
+            # Update Registry
+            settings_file = target_dir / "devsquad-settings.json"
+            if settings_file.exists():
+                try:
+                    settings = json.loads(settings_file.read_text(encoding="utf-8"))
+                    squad = settings.get("squad", {})
+                    active = squad.get("active_agents", {})
+                    
+                    if target in active:
+                        # 1. Remove from active agents
+                        del active[target]
+                        
+                        # 2. Social Cleanup: Remove from others' collaborate lists
+                        for other_name, other_data in active.items():
+                            if "collaborates" in other_data and target in other_data["collaborates"]:
+                                other_data["collaborates"].remove(target)
+                                console.print(f"[yellow]  - Removed {target} from {other_name}'s collaboration path.[/]")
+                        
+                        settings_file.write_text(json.dumps(settings, indent=2), encoding="utf-8")
+                        console.print(f"[green]✓ Removed and cleaned up {target} in devsquad-settings.json registry.[/]")
+                    else:
+                        console.print(f"[yellow]! Agent {target} not found in registry.[/]")
+                except Exception as e:
+                    console.print(f"[red]! Error updating registry: {e}[/]")
+            
+            console.print("[yellow]Note: Remember to update project.md to reflect this change.[/]")
+
+    elif action == "Hire Specialist":
+        choices = []
+        # Priority 1: Fired
+        if fired_dir.exists():
+            choices.extend([f"Re-hire (Customized): {d.name}" for d in fired_dir.iterdir() if d.is_dir()])
+        
+        # Priority 2: Add-ons
+        if addons_dir.exists():
+            choices.extend([f"Hire Add-on (Template): {d.name}" for d in addons_dir.iterdir() if d.is_dir()])
+            
+        if not choices:
+            console.print("[yellow]No candidates found in Pool or History.[/]")
+            return
+            
+        selection = questionary.select("Select candidate to hire:", choices=choices).ask()
+        if selection:
+            is_rehire = selection.startswith("Re-hire")
+            name = selection.split(": ")[1]
+            src = fired_dir / name if is_rehire else addons_dir / name
+            
+            # Copy back
+            for ftype in ["rules", "skills", "workflows"]:
+                asset_src = src / ftype
+                if asset_src.exists():
+                    asset_dest = target_dir / ftype
+                    asset_dest.mkdir(parents=True, exist_ok=True)
+                    for asset in asset_src.glob("*.md"):
+                        dest_file = asset_dest / asset.name
+                        if dest_file.exists():
+                            console.print(f"[yellow]  ! Skipping {asset.name} (Existing version preserved)[/]")
+                        else:
+                            shutil.copy2(asset, dest_file)
+                            console.print(f"[green]  ✓ Onboarded {asset.name}[/]")
+            
+            status = "re-activated" if is_rehire else "onboarded"
+            console.print(f"[green]✓ {name} has been {status} successfully![/]")
+            
+            # Update Registry
+            settings_file = target_dir / "devsquad-settings.json"
+            if settings_file.exists():
+                try:
+                    settings = json.loads(settings_file.read_text(encoding="utf-8"))
+                    squad = settings.setdefault("squad", {})
+                    active = squad.setdefault("active_agents", {})
+                    pool = squad.get("talent_pool", {})
+                    
+                    # 1. Onboard new agent
+                    agent_data = pool.get(name, {
+                        "responsibility": "Specialized mission within the squad"
+                    })
+                    
+                    active[name] = {
+                        "status": "active",
+                        "responsibility": agent_data.get("responsibility"),
+                        "collaborates": agent_data.get("potential_peers", ["solution-architect", "project-manager"])
+                    }
+                    
+                    # 2. Social Sync: Update existing peers
+                    potential_peers = agent_data.get("potential_peers", [])
+                    for peer in potential_peers:
+                        if peer in active:
+                            if "collaborates" not in active[peer]:
+                                active[peer]["collaborates"] = []
+                            if name not in active[peer]["collaborates"]:
+                                active[peer]["collaborates"].append(name)
+                                console.print(f"[green]  ✓ Linked {name} to {peer}'s collaboration path.[/]")
+                    
+                    # 3. Save
+                    settings_file.write_text(json.dumps(settings, indent=2), encoding="utf-8")
+                    console.print("[green]✓ Registered and synced in devsquad-settings.json.[/]")
+                except Exception as e:
+                    console.print(f"[red]! Error updating registry: {e}[/]")
+
+            console.print("[yellow]Note: Remember to update project.md to reflect this change.[/]")
     parser = argparse.ArgumentParser(description="DevSquad Installer Wizard")
     parser.add_argument("--project", "-p", help="Destination path for installation (default: asks user)")
     parser.add_argument("--ide", help=f"Target IDE ({', '.join(IDE_CHOICES.keys())})")
@@ -434,6 +580,19 @@ def main():
         if not dest_path.exists():
             console.print(f"[blue]Target path {dest_path} does not exist. Creating it...[/]")
             dest_path.mkdir(parents=True, exist_ok=True)
+        
+        if dest_path.exists() and (dest_path / ".devsquad").exists():
+            # If already installed, offer Management Menu
+            action = questionary.select(
+                "Project detected. What would you like to do?",
+                choices=["Manage Squad (Hire/Fire Specialists)", "Refresh/Reinstall Base Assets", "Exit"]
+            ).ask()
+            
+            if action == "Exit": return
+            if action == "Manage Squad (Hire/Fire Specialists)":
+                manage_squad(dest_path)
+                return
+            # If "Refresh/Reinstall", continue to normal flow
         
         # OS
         sys_os = ask_os(default=args.os)

@@ -32,7 +32,4 @@ You primarily adopt the following skills:
 
 ## 5. Collaboration
 
-- **Receives from**: `@Project-Manager` (HLD/Features), `@Lead-Developer` (Technical blockers).
-- **Orchestrates**: `@AWS-Specialist`, `@AWS-Database-Specialist`.
-- **Reports to**: `@Project-Manager` (Architectural status and ADRs).
-- **Gatekeeper**: Issues the final technical consensus on Board 1 (Design).
+You MUST check `.devsquad/devsquad-settings.json` to identify your active peers and authorized collaboration paths. Your default orchestration/consultation patterns are dynamically managed by the **HR Manager**.

@@ -4,6 +4,13 @@ trigger: always_on
 
 # Rule: Universal Agent Interaction
 
+## 0. Dynamic Discovery (MANDATORY)
+
+**The squad composition and collaboration map are kept in `.devsquad/devsquad-settings.json`. You MUST check this file at the start of every task to identify active peers.**
+
+- **Collaboration Filter**: You MUST only attempt to consult agents with `status: "active"`.
+- **Hiring Suggestions**: If you identify a need for a peer who is currently `available` (but not active), you MUST suggest to the `@HR-Manager` that they onboard that specialist.
+
 ## 1. Objective
 
 Ensures high-quality, structured communication between agents and the Human Leader, optimized for all top-tier LLMs (Claude, GPT, Gemini).

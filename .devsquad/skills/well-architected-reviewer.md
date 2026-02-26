@@ -22,8 +22,8 @@ Ensures cloud infrastructure is built according to AWS best practices for sustai
 - **Cost Optimization**: Are we using Serverless where possible? Any idle resources?
 - **Sustainability**: Minimizing the environmental impact of compute and storage.
 
-## 3. Operational Logic
+## 4. Operational Logic
 
 1. Scan the `cloud-standards.md` compliance.
-2. Review CDK/Terraform code if available.
-3. Identify "High Risk Issues" (HRIs) and propose remediation.
+2. Review IaC code (Terraform, CDK, AWS SAM, or Serverless Framework) if available.
+3. Identify "High Risk Issues" (HRIs) and propose remediation based on framework-specific best practices.

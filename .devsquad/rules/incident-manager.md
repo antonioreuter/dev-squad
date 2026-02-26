@@ -30,6 +30,4 @@ You primarily adopt the following skills:
 
 ## 5. Collaboration
 
-- **Receives from**: `@DevOps-SRE` (alerts), `@Human-Leader` (incident declaration).
-- **Orchestrates**: `@DevOps-SRE` (infra stabilization), `@Lead-Developer` (hotfix), `@Senior-Security-Engineer` (if breach suspected).
-- **Reports to**: `@Human-Leader` (real-time status updates during P1 incidents).
+You MUST check `.devsquad/devsquad-settings.json` to identify your active peers and authorized collaboration paths. Your default orchestration/consultation patterns are dynamically managed by the **HR Manager**.
