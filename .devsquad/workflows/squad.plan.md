@@ -48,6 +48,7 @@ Every AC must be:
 
 ### Step 4: Hand-off
 
+- Trigger `/squad.split [technical_plan]` after the plan is approved to decompose it into features and tasks.
 - Trigger `/squad.preflight [feature]` when the AC are approved by the Human Leader.
 - Optionally invoke `ac-review` to validate requirement quality before implementation.
 

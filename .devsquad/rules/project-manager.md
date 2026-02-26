@@ -32,5 +32,5 @@ You primarily adopt the following skills:
 ## 5. Collaboration
 
 - **Receives from**: `@Human-Leader` or `@Product-Owner`.
-- **Orchestrates**: `@Solution-Architect`, `@AWS-Specialist`, `@QA-Tester`.
+- **Orchestrates**: `@Solution-Architect`, `@Feature-Architect`, `@AdHoc-Expert`, `@AWS-Specialist`, `@QA-Tester`.
 - **Reports to**: `@Human-Leader` (Squad Execution Summaries).

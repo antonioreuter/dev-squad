@@ -34,8 +34,10 @@ Agents are organized into "Clusters" to ensure structural integrity and clear ac
 ### B. Architecture & Engineering Cluster
 
 - **Solution Architect**: Designs the system backbone, ensuring scalability and hexagonal patterns. **Competency**: Systems high-level design, ADRs, and tech stack decisions.
+- **Feature Architect**: Responsible for structural decomposition of technical plans into features and use cases. **Competency**: Filesystem structural mapping, boilerplate generation, and spec hierarchy.
 - **Lead Developer**: Oversees implementation patterns and technical consistency. **Competency**: Code quality, design patterns, and task execution.
 - **Senior Software Engineer**: Executes high-complexity coding tasks and component design. **Competency**: Individual module implementation and refactoring.
+- **Ad-Hoc Expert**: Specialized in technical debt, urgent refactors, and precision surgical fixes. **Competency**: Regression safety, blast-radius analysis, and ad-hoc task execution.
 - **DevOps SRE**: Responsible for infrastructure as code, deployment pipelines, and observability. **Competency**: CI/CD automation and performance monitoring.
 - **AWS Specialist**: Expert in core cloud infrastructure. **Competency**: VPC, IAM, Compute architectures, and Well-Architected alignment.
 - **AWS Database Specialist**: Expert in persistence and storage. **Competency**: DSQL, RDS, DynamoDB, and S3 lifecycle optimization.
@@ -59,7 +61,7 @@ To empower the Squad, agents are equipped with specialized "Skills" and "Tools."
 - **Documentation**: `technical-writer` (includes Mermaid.js UML).
 - **Validation & Safety**: `compliance-auditor` (HIPAA/GDPR), `test-plan-generator`, `ac-review`.
 - **Cloud & Data**: `cloud-infrastructure-designer`, `database-storage-architect`, `troubleshooter`.
-- **Execution**: `task-generator`, `lead-developer`.
+- **Execution**: `task-generator`, `lead-developer`, `feature-decomposer`, `troubleshooter`.
 
 ### Integrated Tools
 
@@ -131,9 +133,9 @@ The canonical implementation of this framework lives in the `.devsquad/` directo
 
 The reference project demonstrates a modular "Agent Assets" architecture:
 
-- **`.devsquad/rules/`**: Modular constraints — `architecture.md`, `coding-standards.md`, `security.md`, `ux-ui.md`, `testing.md`, `cloud-standards.md`, `api-standards.md`, `project-manager.md`, `solution-architect.md`, `aws-specialist.md`, `aws-database-specialist.md`, `devops-sre.md`.
-- **`.devsquad/skills/`**: `task-generator`, `lead-developer`, `cost-estimator`, `well-architected-reviewer`, `technical-writer`, `technical-reviewer`, `troubleshooter`, `api-reviewer`, `compliance-auditor`, `test-plan-generator`, `cloud-infrastructure-designer`, `database-storage-architect`.
-- **`.devsquad/workflows/`**: `/squad.plan`, `/squad.preflight`, `/squad.implement`, `/squad.finish`, `/squad.deploy`, `/squad.observe`, `/squad.incident`.
+- **`.devsquad/rules/`**: Modular constraints — `architecture.md`, `coding-standards.md`, `security.md`, `ux-ui.md`, `testing.md`, `cloud-standards.md`, `api-standards.md`, `project-manager.md`, `solution-architect.md`, `aws-specialist.md`, `aws-database-specialist.md`, `devops-sre.md`, `adhoc-specialist.md`.
+- **`.devsquad/skills/`**: `task-generator`, `lead-developer`, `cost-estimator`, `well-architected-reviewer`, `technical-writer`, `technical-reviewer`, `troubleshooter`, `api-reviewer`, `compliance-auditor`, `test-plan-generator`, `cloud-infrastructure-designer`, `database-storage-architect`, `feature-decomposer`.
+- **`.devsquad/workflows/`**: `/squad.plan`, `/squad.preflight`, `/squad.implement`, `/squad.finish`, `/squad.deploy`, `/squad.observe`, `/squad.incident`, `/squad.split`, `/squad.adhoc`.
 - **`mcp.json`**: Integration with cloud services and external tools.
 
 ### Key Workflow Highlight: The PM Orchestrator
