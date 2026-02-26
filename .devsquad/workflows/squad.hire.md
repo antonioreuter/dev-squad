@@ -1,3 +1,7 @@
+---
+description: Expands the squad's capabilities by onboarding new specialists or re-activating archived ones.
+---
+
 # Workflow: /squad.hire [Name] [Description] [Tools]
 
 **Trigger:** `/squad.hire [Name] "[Role Description]" "[Tool list]"`

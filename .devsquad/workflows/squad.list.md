@@ -1,3 +1,7 @@
+---
+description: Lists current squad, talent pool, and fired archive.
+---
+
 # Workflow: /squad.list
 
 **Trigger:** `/squad.list`

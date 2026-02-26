@@ -1,3 +1,7 @@
+---
+description: Updates the local DevSquad environment with the latest core assets while preserving project configurations.
+---
+
 # Workflow: /squad.update
 
 **Trigger:** `/squad.update`

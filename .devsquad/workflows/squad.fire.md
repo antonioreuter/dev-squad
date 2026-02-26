@@ -1,3 +1,7 @@
+---
+description: Safely removes an employee from the active squad while preserving their specialized knowledge for potential re-hiring.
+---
+
 # Workflow: /squad.fire [EmployeeName]
 
 **Trigger:** `/squad.fire [EmployeeName]`
