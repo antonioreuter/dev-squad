@@ -68,7 +68,14 @@ src/
   entry-points/          # Controllers, Lambda Handlers, CLI
 ```
 
-## 6. Competency Boundary
+## 7. Knowledge Base (KB) Behavioral Integration
+
+- **Mandatory Check**: Before starting any task, agents MUST check `.devsquad/devsquad-settings.json` for an `infrastructure.knowledge_base` path.
+- **Entry Point**: If a KB is configured, the agent MUST read the root `knowledge-base.md` file first to understand project-specific terminology, patterns, and context.
+- **Context Priority**: Information found in the Project Knowledge Base takes precedence over general LLM training data for project-specific decisions.
+- **KB Structure**: The KB supports recursive discovery of `.md` files, but the root `knowledge-base.md` acts as the primary index and source of truth.
+
+## 8. Competency Boundary
 
 - The **Solution Architect** is the final authority on these rules.
 - Breaking a layer boundary MUST be flagged for **Human Review** with a documented ADR (Architecture Decision Record).

@@ -1,0 +1,19 @@
+# Project Knowledge Base (KB) 📚
+
+Welcome to the **Source of Truth** for this project. This index provides a high-level map of specialized technical knowledge, architectural decisions, and domain concepts.
+
+## 🗺️ Index
+
+- [Architectural Decisions](./docs/kb/adr.md): Log of major design choices.
+- [Domain Glossary](./docs/kb/glossary.md): Definition of project-specific terms.
+- [External Integrations](./docs/kb/integrations.md): Details on 3rd party APIs and webhooks.
+- [Developer Onboarding](./docs/kb/onboarding.md): Setup and local development guides.
+
+## 🛠️ Usage for Agents
+
+1. **Read First**: Always start a new feature by reading this index.
+2. **Deep Dive**: Follow the links above to find relevant context for your specific task.
+3. **Contribute**: If you discover a significant pattern or resolve a complex architectural issue, suggest an update to the KB.
+
+---
+*Maintained by the DevSquad Solution Architect.*

@@ -568,12 +568,46 @@ def manage_squad(dest_path: Path):
                     console.print(f"[red]! Error updating registry: {e}[/]")
 
             console.print("[yellow]Note: Remember to update project.md to reflect this change.[/]")
+def ask_kb(project_path: Path, default=None):
+    if default:
+        return default
+    
+    confirm = questionary.confirm(
+        "Step 5: Would you like to configure a Project Knowledge Base?",
+        default=True
+    ).ask()
+    
+    if not confirm:
+        return None
+        
+    kb_path = questionary.text(
+        "Enter the path to your Knowledge Base folder (relative to project root)",
+        default="docs/kb"
+    ).ask()
+    
+    if kb_path:
+        full_path = project_path / kb_path
+        if not full_path.exists():
+            create = questionary.confirm(
+                f"Directory {kb_path} does not exist. Create it?",
+                default=True
+            ).ask()
+            if create:
+                full_path.mkdir(parents=True, exist_ok=True)
+                # Create default index
+                index_file = full_path / "knowledge-base.md"
+                if not index_file.exists():
+                    index_file.write_text("# Project Knowledge Base\n\nWelcome to the knowledge base. List your modules here.", encoding="utf-8")
+        return kb_path
+    return None
+
 def main():
     parser = argparse.ArgumentParser(description="DevSquad Installer Wizard")
     parser.add_argument("--project", "-p", help="Destination path for installation (default: asks user)")
     parser.add_argument("--ide", help=f"Target IDE ({', '.join(IDE_CHOICES.keys())})")
     parser.add_argument("--model", help=f"AI Model / Extension ({', '.join(MODEL_CHOICES.keys())})")
     parser.add_argument("--os", help=f"Operating System ({', '.join([o.lower() for o in OS_CHOICES])})")
+    parser.add_argument("--kb", help="Path to Knowledge Base directory")
     args = parser.parse_args()
 
     try:
@@ -612,12 +646,27 @@ def main():
         # Model
         model = ask_model(default=args.model)
         if not model: return
+
+        # Knowledge Base
+        kb_path = ask_kb(dest_path, default=args.kb)
         
         print_architecture_brief()
         
-        console.print(f"\n[bold]Step 5: Projecting Brain Assets to {dest_path}...[/]")
+        console.print(f"\n[bold]Step 6: Projecting Brain Assets to {dest_path}...[/]")
         deploy_assets(dest_path, sys_os, ide, model)
         generate_mcp_config(dest_path)
+
+        # Update Settings with KB info
+        settings_file = dest_path / ".devsquad" / "devsquad-settings.json"
+        if settings_file.exists():
+            try:
+                settings = json.loads(settings_file.read_text(encoding="utf-8"))
+                infra = settings.setdefault("infrastructure", {})
+                infra["knowledge_base"] = kb_path
+                settings_file.write_text(json.dumps(settings, indent=2), encoding="utf-8")
+                console.print(f"[green]✓ Knowledge Base path '{kb_path}' registered in settings.[/]")
+            except Exception as e:
+                console.print(f"[red]! Warning: Could not update settings with KB path: {e}[/]")
         
         console.print(f"\n[green bold]Success! DevSquad is now configured for {sys_os}, {ide}, and {model}.[/]")
         console.print(f"Path: [cyan]{dest_path}[/]")
