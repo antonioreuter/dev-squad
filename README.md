@@ -14,6 +14,7 @@ DevSquad operates on **Spec-Driven Development (SDD)**. The specification isn't 
 
 - **Reduces Context Exhaustion**: Agents focus on their domain-specific rules (e.g., Security doesn't care about CSS; UX doesn't care about SQL).
 - **Enforces Architectural Integrity**: The "Solution Architect" role acts as a gatekeeper, preventing "Lazy Coding" common in generalist LLMs.
+- **Automated Intelligence**: The `/squad.scan` command populates the **Knowledge Base Inventory** (`stack.md`, `structure.md`, `gaps.md`) with automated metadata tags that trigger agent context loading.
 - **Intrinsic Traceability**: Every T001 task is tied to an Acceptance Criterion, which is tied to a Business Requirement.
 
 ---
@@ -37,6 +38,8 @@ graph TD
         R["rules/"] --> A["Agents / Personas"]
         S["skills/"] --> Sk["Specialized Capabilities"]
         W["workflows/"] --> C["Slash Commands"]
+        Tpl["templates/"] --> Doc["Doc Blueprints"]
+        KB["knowledge/"] --> Inv["Live Inventory"]
     end
 
     A -- Adopts --> Sk
@@ -118,36 +121,54 @@ DevSquad uses a **Lightweight Bridge** strategy to maintain IDE compatibility wi
 
 ---
 
-## 🛠️ The Collaborative Workstreams ("Boards")
+## 🔄 Collaborative Workstreams ("Boards")
 
-#### 🔄 Multi-Agent Collaboration Flow
+DevSquad operates through standardized **Boards** that synchronize multiple agents. While these Boards provide a structured path, the framework remains **non-prescriptive**—users have the freedom to engage agents individually or bypass board structures entirely.
 
-```mermaid
-sequenceDiagram
-    participant H as Human Leader
-    participant PM as "@Project-Manager"
-    participant SA as "@Solution-Architect"
-    participant LD as "@Lead-Developer"
-    participant QA as "@QA-Tester"
+### 1. Discovery & Strategic Planning
 
-    H->>PM: /squad.plan [Idea]
-    PM->>SA: Design Check (Lens Review)
-    Note over SA: DEVIL'S ADVOCATE
-    SA-->>PM: Challenge / ADR Proposal
-    PM->>H: Consensus / AC Definition
-    H->>LD: /squad.implement [Task]
-    LD->>QA: Hand-off for E2E
-    QA-->>H: Ready for Release
-```
+| Command              | Purpose                                                     | Involved Agents                                             |
+| :------------------- | :---------------------------------------------------------- | :---------------------------------------------------------- |
+| `/squad.scan`        | Analyzes repo structure, frameworks, and security gaps.     | `@Project-Manager`, `@Solution-Architect`                   |
+| `/squad.plan [idea]` | Translates raw ideas into hardened BDD Acceptance Criteria. | `@Project-Manager`, `@Solution-Architect`, `@Product-Owner` |
+| `/squad.split`       | Decomposes a feature into a structured `spec/` hierarchy.   | `@Feature-Architect`, `@Solution-Architect`                 |
+| `/squad.list`        | Lists all active agents, projects, and defined specs.       | `@Project-Manager`                                          |
 
-DevSquad sequences agents through four synchronous milestones:
+### 2. Autonomous Implementation
 
-| Board                 | Focus                  | Activation / Trigger      | Primary Skills                             |
-| :-------------------- | :--------------------- | :------------------------ | :----------------------------------------- |
-| **1. Hardening**      | Requirements Integrity | `/squad.plan [idea]`      | `ac-review`, `well-architected-reviewer`   |
-| **2. Decomposition**  | Atomic Tasking         | `task-generator` (Skill)  | `task-generator`, `cost-estimator`         |
-| **3. Implementation** | Layered Coding         | `/squad.implement [T00x]` | `lead-developer`, `cloud-designer`         |
-| **4. Validation**     | Acceptance Audit       | `/squad.finish [feature]` | `technical-reviewer`, `compliance-auditor` |
+| Command                      | Purpose                                                         | Involved Agents                                        |
+| :--------------------------- | :-------------------------------------------------------------- | :----------------------------------------------------- |
+| `/squad.preflight [feature]` | Resolves implementation unknowns before any code is written.    | `@Lead-Developer`, `@Solution-Architect`, `@QA-Tester` |
+| `/squad.implement [task_id]` | Executes an atomic task with strict TDD and layer-first rigor.  | `@Lead-Developer`, `@Senior-Software-Engineer`         |
+| `/squad.finish`              | Final acceptance audit against quality, safety, and UX gates.   | `@Lead-Developer`, `@Technical-Reviewer`, `@QA-Tester` |
+| `/squad.adhoc [task]`        | Precision refactors, technical debt fixes, or surgical repairs. | `@Ad-Hoc-Expert`, `@Lead-Developer`                    |
+
+### 3. Site Reliability & Release
+
+| Command                  | Purpose                                                | Involved Agents                                       |
+| :----------------------- | :----------------------------------------------------- | :---------------------------------------------------- |
+| `/squad.deploy [env]`    | Orchestrates a safe release to the target environment. | `@DevOps-SRE`, `@AWS-Specialist`                      |
+| `/squad.observe [app]`   | Sets up full observability (OTel, SLOs, alarms).       | `@DevOps-SRE`, `@Lead-Developer`                      |
+| `/squad.incident [info]` | Structured response: triage → RCA → post-mortem.       | `@Incident-Manager`, `@DevOps-SRE`, `@Lead-Developer` |
+
+### 4. Dynamic Squad HR (Talent Management)
+
+| Command               | Purpose                                                 | Involved Agents                   |
+| :-------------------- | :------------------------------------------------------ | :-------------------------------- |
+| `/squad.hire [addon]` | Onboards a new specialist from the Talent Pool.         | `@HR-Manager`, `@Project-Manager` |
+| `/squad.fire [agent]` | Safely offboards a specialist and cleans up registries. | `@HR-Manager`, `@Project-Manager` |
+
+---
+
+## 🏛️ Squad HR & Talent Management
+
+DevSquad features a dynamic hiring loop managed by the **HR Manager**. The squad composition is not static; it evolves as the project scales.
+
+- **The Talent Pool (`_addons`)**: Pre-built specialists for AWS, HIPAA, GDPR, FHIR R4, and DFMEA are kept in the "On-Deck" pool.
+- **Specialist Hiring**: When a specialist is hired via the CLI or `/squad.hire`, the HR Manager automates their onboarding, injects their specific rules and skills, and performs a **"Social Update"** of the `devsquad-settings.json` registry.
+- **The Graveyard (`fired/`)**: Offboarded specialists are moved to the graveyard, where they can be later "Re-hired" with their previous context and custom adaptations preserved.
+
+---
 
 ---
 
@@ -195,9 +216,11 @@ dev-squad
 
 ### 2. Trigger the Loop
 
+- `/squad.scan` — Discover project structure, frameworks, and architectural gaps.
 - `/squad.plan [idea]` — Turn a raw idea into hardened BDD Acceptance Criteria.
 - `/squad.implement [task_id]` — Execute a task with full TDD and architectural rigor.
 - `/squad.finish` — Final verification against all quality and safety gates.
+- `/squad.adhoc [description]` — Surgical refactors or technical debt fixes.
 - `/squad.help` — List all available agents, skills, and slash commands.
 
 ### 3. Ad-hoc Agent Engagement

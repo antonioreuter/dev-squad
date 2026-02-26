@@ -29,6 +29,7 @@ Agents are organized into "Clusters" to ensure structural integrity and clear ac
 - **Project Manager (PM)**: The **Squad Leader**. Defines the vision, orchestrates the workflow, and ensures technical execution aligns with strategic goals.
 - **Product Owner (PO)**: Manages the backlog and ensures the team delivers business value.
 - **UX/UI Designer**: Responsible for creating the user interface and user experience, ensuring visual consistency and usability align with requirements.
+- **HR Manager**: Manages the squad composition, proactively suggesting and hiring new specialists, and maintaining the agent registry (`devsquad-settings.json`).
 - **Domain Expert**: Provides deep industry context (e.g., Fintech, Healthtech). _Note: Configurable per-project._
 
 ### B. Architecture & Engineering Cluster
@@ -45,9 +46,16 @@ Agents are organized into "Clusters" to ensure structural integrity and clear ac
 ### C. Safety & Governance Cluster
 
 - **Senior Security Engineer**: The "Paranoid Guardrail." Performs threat modeling and enforces "Security by Design." **Competency**: Auth/Auth patterns, vulnerability scanning, and compliance isolation.
-- **Compliance Auditor**: Validates adherence to regulatory standards (HIPAA, GDPR, etc.). **Competency**: Regulatory alignment and PII protection.
-- **QA Tester**: Defines and executes testing strategies (Unit, Integration, E2E). **Competency**: Test coverage, edge-case detection, and bug reports.
 - **Incident Manager**: Handles troubleshooting and manages the resolution of production-level issues. **Competency**: Root cause analysis and service restoration.
+
+### D. The Talent Pool (Add-on Specialists)
+
+DevSquad includes specialized pre-built specialists that can be hired via the CLI:
+
+- **AWS Specialist Cluster**: Deep expertise in Amazon Bedrock, SageMaker, and Core Infra.
+- **Healthcare Specialist Cluster**: Experts in **HL7 FHIR R4** and **HIPAA** compliance.
+- **Quality & Risk Cluster**: Specialist in **DFMEA** (Design Failure Mode and Effects Analysis).
+- **Compliance Specialists**: **GDPR**-focused auditors and data protection experts.
 
 ---
 
@@ -61,6 +69,7 @@ To empower the Squad, agents are equipped with specialized "Skills" and "Tools."
 - **Documentation**: `technical-writer` (includes Mermaid.js UML).
 - **Validation & Safety**: `compliance-auditor` (HIPAA/GDPR), `test-plan-generator`, `ac-review`.
 - **Cloud & Data**: `cloud-infrastructure-designer`, `database-storage-architect`, `troubleshooter`.
+- **Discovery**: `repository-scanner` (framework detection, architectural gap analysis, inventory generation).
 - **Execution**: `task-generator`, `lead-developer`, `feature-decomposer`, `troubleshooter`.
 
 ### Integrated Tools
@@ -134,8 +143,11 @@ The canonical implementation of this framework lives in the `.devsquad/` directo
 The reference project demonstrates a modular "Agent Assets" architecture:
 
 - **`.devsquad/rules/`**: Modular constraints — `architecture.md`, `coding-standards.md`, `security.md`, `ux-ui.md`, `testing.md`, `cloud-standards.md`, `api-standards.md`, `project-manager.md`, `solution-architect.md`, `aws-specialist.md`, `aws-database-specialist.md`, `devops-sre.md`, `adhoc-specialist.md`.
-- **`.devsquad/skills/`**: `task-generator`, `lead-developer`, `cost-estimator`, `well-architected-reviewer`, `technical-writer`, `technical-reviewer`, `troubleshooter`, `api-reviewer`, `compliance-auditor`, `test-plan-generator`, `cloud-infrastructure-designer`, `database-storage-architect`, `feature-decomposer`.
-- **`.devsquad/workflows/`**: `/squad.plan`, `/squad.preflight`, `/squad.implement`, `/squad.finish`, `/squad.deploy`, `/squad.observe`, `/squad.incident`, `/squad.split`, `/squad.adhoc`.
+- **`.devsquad/skills/`**: `task-generator`, `lead-developer`, `cost-estimator`, `well-architected-reviewer`, `technical-writer`, `technical-reviewer`, `troubleshooter`, `api-reviewer`, `compliance-auditor`, `test-plan-generator`, `cloud-infrastructure-designer`, `database-storage-architect`, `feature-decomposer`, `repository-scanner`.
+- **`.devsquad/workflows/`**: `/squad.plan`, `/squad.preflight`, `/squad.implement`, `/squad.finish`, `/squad.deploy`, `/squad.observe`, `/squad.incident`, `/squad.split`, `/squad.adhoc`, `/squad.scan`.
+- **`.devsquad/knowledge/inventory/`**: Automated repository intelligence (`stack.md`, `structure.md`, `gaps.md`) populated via `/squad.scan`.
+- **`.devsquad/templates/`**: BLUEPRINTS for `tech-plan.md`, `test-plan.md`, `feature-detail.md`, `use-case-detail.md`, and `checklist.md`.
+- **`devsquad-settings.json`**: The **Agent Registry** and project-specific configuration (Knowledge Base paths, squad composition).
 - **`mcp.json`**: Integration with cloud services and external tools.
 
 ### Key Workflow Highlight: The PM Orchestrator
@@ -153,7 +165,7 @@ DevSquad is designed to function as a "Universal Brain" that adapts to its host 
 Instead of a persistent agent workflow, DevSquad utilizes a one-time **Installer Wizard** (e.g., `install.sh` or `setup.js`). This wizard acts as the distribution bridge:
 
 - **Environment Detection**: Probes for the OS (Linux/macOS/Windows) and the active IDE environment.
-- **Smart Distribution**: Copies and adapts core assets (Rules, Skills, Workflows) into the specific paths and formats required by the target IDE (e.g., `.cursorrules` for Cursor, `.windsurfrules` for Windsurf).
+- **Smart Distribution**: Copies and adapts core assets (Rules, Skills, Workflows) into the specific paths and formats required by the target IDE (e.g., `.windsurfrules` for Windsurf, `CLAUDE.md` for Claude Code). Supported IDEs: **VSCode, Windsurf, Antigravity**.
 - **Model Optimization**: Prompts the user for their preferred model provider and injects the corresponding prompt-engineering particularities into the system configuration.
 
 ### B. Cross-Platform "Environmental Adapter"
@@ -184,6 +196,8 @@ DevSquad does not favor a single LLM. Instead, it utilizes **Model-Tiering** bas
 - [x] MCP AWS Toolset & Ecosystem Integration (Skill-Centric Tooling Pivot).
 - [x] AWS Specialist Cluster (Cloud & Database agents with Well-Architected alignment).
 - [x] Mermaid.js UML visualization for Technical Writer and Solution Architect.
+- [x] Repository Scanner & Architectural Gap Detection.
+- [x] HR Manager: Specialist Hiring/Firing Loop & Registry Sync.
 - [ ] Multi-Model Provider Support (Automatic Prompt Optimization per LLM).
 - [ ] Multi-IDE Plugin Marketplace.
 - [ ] Cross-repository Knowledge Items (KIs) for shared context across squad projects.

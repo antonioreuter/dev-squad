@@ -65,16 +65,22 @@ Skills are **specialist capabilities** you invoke when you need them. They are t
 - "Use `task-generator` to break this down"
 - "Apply `compliance-auditor` to this user data module"
 
+### 🎒 The Talent Pool (`_addons`)
+
+Beyond the core squad, DevSquad includes a **Talent Pool** of specialized specialists (AWS, HIPAA, GDPR, FHIR, DFMEA) located in `.devsquad/_addons/`. These can be "hired" via the CLI to add their modular rules and skills to your project.
+
 ### ⚙️ Workflows (Orchestration Scripts)
 
 Workflows are **structured multi-step processes** triggered by a slash command. They orchestrate multiple agents and skills toward a specific milestone.
 
 | Command                         | Purpose                                                  |
 | ------------------------------- | -------------------------------------------------------- |
+| `/squad.scan`                   | Discover project structure, frameworks, and gaps.        |
 | `/squad.plan [idea]`            | Turn a raw idea into User Stories + Acceptance Criteria  |
 | `/squad.preflight [feature]`    | Pre-flight check + research gate before writing code     |
 | `/squad.implement [task_id]`    | Execute a single atomic task with strict TDD             |
 | `/squad.finish [feature]`       | Quality wrap-up + hand-off to review                     |
+| `/squad.adhoc [description]`    | Surgical refactors or technical debt fixes.              |
 | `/squad.deploy [service?]`      | Full safe release to production                          |
 | `/squad.observe [service]`      | Set up full observability (OTel, SLOs, alarms, RUM)      |
 | `/squad.incident [description]` | Structured incident response: triage → RCA → post-mortem |
@@ -122,26 +128,23 @@ The installer will ask you **four questions**:
 Welcome to the DevSquad Installer Wizard!
 --------------------------------------------------------
 
-Step 1: Select your Operating System
+Step 2: Select your Operating System
 1) Linux
 2) macOS
 3) Windows
 Choose an option [1-3]:
 
-Step 2: Select your target IDE
+Step 3: Select your target IDE
 1) VSCode
 2) Windsurf
-3) Cursor
-4) Antigravity
-5) Terminal / CLI
-Choose an option [1-5]:
+3) Antigravity
+Choose an option [1-3]:
 
-Step 3: Select your AI Model / Agent Extension
+Step 4: Select your AI Model / Agent Extension
 1) IDE Native (Built-in)
 2) Claude Code
 3) GitHub Copilot
-4) RooCode (Cline)
-Choose an option [1-4]:
+Choose an option [1-3]:
 
 Step 4: Select MCP Servers to Enable (Space to select, Enter to confirm)
 instructions: ...
@@ -172,11 +175,9 @@ The installer will **never overwrite your existing configuration files** if they
 | --------------------------- | ---------------------------------------------------------------------- |
 | **Antigravity**             | Nothing extra — `.devsquad/` directory is already the native format ✅ |
 | **Windsurf**                | `.windsurfrules` (lightweight pointer)                                 |
-| **Cursor**                  | `.cursorrules` (lightweight pointer)                                   |
-| **VSCode + Claude Code**    | `.claude/devsquad.md` (lightweight pointer)                            |
+| **VSCode + Claude Code**    | `CLAUDE.md` (lightweight pointer)                                      |
 | **VSCode + GitHub Copilot** | `.github/copilot-instructions.md` (lightweight pointer)                |
-| **VSCode + RooCode**        | `.clinerules` (lightweight pointer)                                    |
-| **Terminal + Native**       | `AGENT_INSTRUCTIONS.md` (lightweight pointer)                          |
+| **Universal / CLI**         | `AGENT_INSTRUCTIONS.md` (lightweight pointer)                          |
 
 The canonical source of truth remains the `.devsquad/` directory regardless of IDE:
 
@@ -229,17 +230,79 @@ Every agent has a **sovereign domain** and **MUST NOT** extrapolate into others.
 
 ### 🛡️ Safety & Governance
 
-| Role                         | Domain                             | Mindset                                       |
-| ---------------------------- | ---------------------------------- | --------------------------------------------- |
-| **Senior Security Engineer** | AuthN/AuthZ, IDOR, secrets, GDPR   | Paranoid by design. Every input is malicious. |
-| **QA Tester**                | Test coverage, edge cases, BDD     | "What if?" engine. Pessimistic realist.       |
-| **Incident Manager**         | Outage response, RCA, post-mortems | Calm under pressure. MTTR first, RCA second.  |
+| Role                         | Domain                             | Mindset                                          |
+| ---------------------------- | ---------------------------------- | ------------------------------------------------ |
+| **Senior Security Engineer** | AuthN/AuthZ, IDOR, secrets, GDPR   | Paranoid by design. Every input is malicious.    |
+| **QA Tester**                | Test coverage, edge cases, BDD     | "What if?" engine. Pessimistic realist.          |
+| **Incident Manager**         | Outage response, RCA, post-mortems | Calm under pressure. MTTR first, RCA second.     |
+| **HR Manager**               | Squad composition, Registry sync   | Proactive hiring, smooth specialist transitions. |
+
+---
+
+## 🏛️ Squad HR & Talent Management
+
+The DevSquad squad is dynamic. The **HR Manager** (available via CLI or `@HR-Manager`) oversees the lifecycle of specialists in your project.
+
+### 🎒 The Talent Pool (`_addons/`)
+
+DevSquad comes with a library of specialized specialists ready to be onboarded:
+
+- **`cloud-aws`**: Experts in Amazon Bedrock, SageMaker, and Well-Architected Infra.
+- **`healthcare-fhir`**: Deep knowledge of HL7 FHIR R4 resources and logic.
+- **`healthcare-hipaa`**: Specialists in HIPAA security and privacy rules.
+- **`compliance-gdpr`**: Data protection and privacy regulation auditors.
+- **`quality-dfmea`**: Risk assessment and failure mode experts.
+
+### 🤝 Hiring a Specialist
+
+To hire a new specialist from the pool:
+
+1. Run `dev-squad` in your project root.
+2. Select **Manage Squad (Hire/Fire Specialists)**.
+3. Select **Hire Specialist**.
+4. Choose between **Hire Add-on (Template)** for new specialists or **Re-hire (Customized)** for previously dismissed specialists.
+
+**What happens next?**
+
+- The HR Manager copies the specialist's rules, skills, and workflows into your project.
+- The **Agent Registry** (`devsquad-settings.json`) is updated.
+- A **Social Sync** occurs: the HR Manager updates the "collaborates" lists of all peer agents, ensuring they are aware of the new specialist's mission.
+
+### 🚪 Firing a Specialist
+
+When a specialist's mission is complete:
+
+1. Run `dev-squad`.
+2. Select **Manage Squad → Fire Specialist**.
+3. Select the agent to dismiss.
+
+The agent's assets are moved to the **Graveyard** (`.devsquad/fired/`), preserving any project-specific customizations. Their references are cleaned up from the Registry and peer collaboration lists, preventing "ghost collaborations."
 
 ---
 
 ## 5. The Workflow — From Idea to Code
 
 This is the core DevSquad loop. Follow it for any non-trivial feature.
+
+### Step 0: Discovery & Inventory → `/squad.scan`
+
+Before planning, let the squad analyze your repository. The `/squad.scan` command builds a project inventory, detects frameworks, and identifies architectural gaps.
+
+```
+/squad.scan
+```
+
+**What it discovers:**
+
+- **Tech Stack**: Languages, frameworks, and versions.
+- **Project Structure**: Paradigms (e.g., Next.js App Router).
+- **Security Gaps**: Unignored `.env` files.
+
+**Automatic Metadata & Triggers**:
+The scan populates the **Inventory** (`.devsquad/knowledge/inventory/`) with automated metadata tags like `<!-- load-on: tech-research -->`. These tags act as triggers: when an agent starts a task related to "tech-research," they proactively read the inventory files.
+
+**Manual Notes**:
+The inventory files (`stack.md`, `gaps.md`) contain `<!-- manual-notes-start -->` blocks. You can add your own architectural context here; the scanner will **never overwrite** your manual notes during subsequent scans.
 
 ### Step 1: Ideate → `/squad.plan`
 
@@ -448,23 +511,26 @@ These are enforced automatically. You don't call them — they shape every respo
    /squad.incident [description of the outage]
 ```
 
-### Pattern C: "I need to review existing code or infrastructure"
+### Pattern E: Ad-hoc Refactors & Technical Debt
 
 ```
-- For code quality: "Run technical-reviewer on [file or PR]"
-- For cloud infra: "Run well-architected-reviewer on our CDK stack"
-- For API design: "Run api-reviewer on the /Observation endpoint spec"
-- For security: "Review the auth module through the security lens"
-- For compliance: "Run compliance-auditor on the Patient data flow"
+/squad.adhoc Surgical refactor of the Patient Search Adapter to use the new FHIR-SDK.
 ```
 
-### Pattern D: "I need documentation"
+The **Ad-Hoc Expert** will perform a blast-radius analysis and execute the refactor with a focus on regression safety.
 
+### Pattern F: Squad Management (Hire/Fire)
+
+If the project requires specialized skills (e.g., a Mobile Specialist) or you need to remove a role, run the installer in an existing project:
+
+```bash
+dev-squad
 ```
-- "Write a README for the patient module using technical-writer"
-- "Create an ADR for our decision to use FHIR header versioning"
-- "Write a post-mortem for yesterday's incident"
-```
+
+**Select**: `Manage Squad (Hire/Fire Specialists)`.
+
+- **Hiring**: Onboards the agent, their rules, and skills, while syncing their presence in the `devsquad-settings.json` registry.
+- **Firing**: Safely offboards the agent and removes them from peer collaboration paths.
 
 ---
 
@@ -504,6 +570,15 @@ Rules are plain Markdown. Open any file in `.devsquad/rules/` and edit it to mat
 - **`cloud-standards.md`**: Add your preferred AWS region, account tags, or specific services you ban.
 - **`api-standards.md`**: Already pre-configured for HL7 FHIR R4 and `API-Version` header versioning.
 - **`coding-standards.md`**: Add your preferred test framework, linting rules, or naming conventions.
+
+### Using Documentation Templates
+
+DevSquad includes standardized blueprints in `.devsquad/templates/` to ensure high-quality documentation. Agents use these automatically, but you can also reference them:
+
+- **`tech-plan.md`**: Best practices for technical design docs.
+- **`test-plan.md`**: Standard structure for BDD and integration test strategies.
+- **`feature-detail.md`**: Deep dive into specific project features.
+- **`checklist.md`**: Automated quality gates for release readiness.
 
 ### Adding Domain-Specific Knowledge
 
@@ -564,16 +639,34 @@ bash install.sh  # Linux/macOS
 ## Quick Reference Card
 
 ```
-WORKFLOWS (slash commands)
-  /squad.plan [idea]              → Idea → User Stories + AC
-  /squad.preflight [feature]         → Pre-flight + research gate
-  /squad.implement [task_id]     → Execute single task (TDD)
-  /squad.finish [feature]        → Quality wrap-up + hand-off
-  /squad.deploy [service?]       → Safe release to production
-  /squad.observe [service]       → Full observability setup
-  /squad.incident [description]  → Triage → RCA → Post-mortem
+### Dedicated Workflow Guide (Slash Commands)
 
-SKILLS (invoke by name)
+DevSquad agents follow strict orchestration scripts. When you trigger a command, the agent reads the corresponding `.md` file in `.devsquad/workflows/`.
+
+- **Strategy**: `/squad.plan`, `/squad.split`, `/squad.list`
+- **Execution**: `/squad.preflight`, `/squad.implement`, `/squad.finish`, `/squad.adhoc`
+- **Ops**: `/squad.deploy`, `/squad.observe`, `/squad.incident`
+- **HR**: `/squad.hire`, `/squad.fire`
+
+---
+
+## 💻 CLI Reference
+
+The `dev-squad` command is your administrative hub.
+
+| Command | Action |
+| :--- | :--- |
+| `dev-squad install` | Deploys/Updates core DevSquad assets and IDE pointers. |
+| `dev-squad scan` | Performs a deep repository scan and updates the inventory. |
+| `dev-squad --project [path]` | Runs the wizard on a specific target directory. |
+
+**Management Menu (Existing Projects)**:
+If run in a project with an existing `.devsquad/` folder, the CLI enables the Management Menu:
+- **Scan Repository**: Quick update of all inventory files.
+- **Manage Squad**: The HR hub for hiring and firing specialists.
+- **Refresh Base Assets**: Re-deploys rules and workflows if the core package has been updated.
+
+---
   ac-review          → Validate requirement quality (Unit Tests for English)
   task-generator     → Break feature into atomic T001 [P] [US1] tasks
   lead-developer     → Implement a task with full rules-first rigor
