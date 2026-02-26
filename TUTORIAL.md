@@ -317,8 +317,27 @@ Start with a raw idea. The PM will challenge it, consult the Architect and Secur
 1. PM analyzes the idea against the project vision
 2. PM triggers a "Lens Review" — asks `@Solution-Architect` for feasibility, `@Security-Engineer` for risks
 3. PM writes BDD criteria in `Given/When/Then` format
-4. If agents disagree (e.g., Architect wants caching, Security says it risks stale PHI data), PM surfaces **Option A / Option B** to you for a decision
+4. If agents disagree, they apply the **Devil's Advocate Protocol**.
 5. PM hands off to the `task-generator` skill
+
+**The Devil's Advocate Protocol in Action:**
+If you ask to see the squad's dialogue, it might look like this:
+
+> **@Solution-Architect**: I recommend caching FHIR Patient resources in ElastiCache (TTL: 5 min) to reduce text-search load.
+> **@Senior-Security-Engineer**: BLOCKING — caching PHI even for 5 minutes violates our HIPAA data freshness requirement for clinical decisions. The cache must be invalidated on write, not by TTL.
+> **@Solution-Architect**: Acknowledged. Revised proposal: event-driven cache invalidation via SQS on Patient update events.
+> **@Project-Manager**: Consensus reached. Updating AC to require cache invalidation on write.
+
+### Step 1.1: Strategic Decomposition → `/squad.split`
+
+For large features (Epics), the single plan generated might be too dense. Use `/squad.split` to break it down into a structured `spec/` directory hierarchy.
+
+```
+/squad.split patient-search
+```
+
+**What happens:**
+The `@Feature-Architect` and `@Solution-Architect` collaborate to decompose the Epic into bounded Use Cases, generating individual markdown files for each component to ensure the design remains modular and digestible.
 
 ### Step 2: Validate Requirements → `ac-review`
 
@@ -405,6 +424,43 @@ When all tasks are complete and tests are green:
 4. Hand-off to `@QA-Tester` for E2E smoke tests
 5. Feature marked "Ready for Release"
 
+### Step 7: Production Release → `/squad.deploy`
+
+When the feature is ready, trigger the deployment pipeline.
+
+```
+/squad.deploy production
+```
+
+**What happens:**
+The `@DevOps-SRE` and `@AWS-Specialist` review the infrastructure changes, ensure CI/CD checks have passed, and execute the deployment safely, rolling back if smoke tests fail.
+
+### Step 8: Day-2 Ops & Telemetry → `/squad.observe`
+
+A feature isn't done until it's observable. Set up monitoring for your new endpoints.
+
+```
+/squad.observe patient-search-api
+```
+
+**What happens:**
+The `@DevOps-SRE` configures OpenTelemetry traces, defines Service Level Objectives (SLOs), and sets up CloudWatch alarms for latency and error rates.
+
+### Step 9: Chaos & Incidents → `/squad.incident`
+
+If the worst happens in production, invoke the Incident Response workflow.
+
+```
+/squad.incident Patient search is returning 500 timeouts
+```
+
+**What happens:**
+The `@Incident-Manager` takes over the squad. The response is structured:
+
+1. **Triage**: Stabilize the system (MTTR over perfect fixes).
+2. **RCA**: Investigate logs and metrics to find the root cause.
+3. **Post-Mortem**: Document the incident and generate tasks to prevent recurrence.
+
 ---
 
 ## 6. Skills Reference — On-Demand Intelligence
@@ -432,11 +488,13 @@ Invoke any skill by describing what you need or naming the skill explicitly.
 
 ### 🛠️ Execution
 
-| Skill            | When to use                                   | Example prompt                                          |
-| ---------------- | --------------------------------------------- | ------------------------------------------------------- |
-| `task-generator` | Breaking down a feature into atomic tasks.    | `"Generate tasks for the notification module"`          |
-| `lead-developer` | Implementing a specific task with full rigor. | `"Implement T004 using lead-developer skill"`           |
-| `troubleshooter` | Debugging a bug or production issue.          | `"Help me RCA this timeout error using troubleshooter"` |
+| Skill                | When to use                                   | Example prompt                                          |
+| -------------------- | --------------------------------------------- | ------------------------------------------------------- |
+| `task-generator`     | Breaking down a feature into atomic tasks.    | `"Generate tasks for the notification module"`          |
+| `feature-decomposer` | Decomposing a large Epic into Use Cases.      | `"Use feature-decomposer to split the checkout epic"`   |
+| `lead-developer`     | Implementing a specific task with full rigor. | `"Implement T004 using lead-developer skill"`           |
+| `troubleshooter`     | Debugging a bug or production issue.          | `"Help me RCA this timeout error using troubleshooter"` |
+| `repository-scanner` | Running a deep scan of the project.           | `"Run repository-scanner to inventory this repo"`       |
 
 ### 📝 Documentation
 
@@ -559,6 +617,19 @@ The latency requirements don't justify the overhead. What's your counter-argumen
 
 The Architect MUST respond with its reasoning and, if your point is valid, update its recommendation.
 
+### The Decision Hierarchy
+
+In the event of a deadlock between agents (e.g., Security vs. Performance), DevSquad follows a strict resolution protocol:
+
+```mermaid
+graph TD
+    H[1. Human Leader <br> Absolute Authority] --> PM[2. Project Manager <br> Strategic Authority]
+    PM --> SA[3. Solution Architect <br> Technical Authority]
+    SA --> Specs[4. Specialist Cluster <br> Domain Authority]
+```
+
+If agents cannot agree, the highest-ranking agent issues an **Executive Summary Decision (ESD)** and proceeds, unless the risk mandates pausing for your approval.
+
 ---
 
 ## 10. Customizing for Your Project
@@ -624,6 +695,28 @@ description: Short description of what this skill does.
 
 ...
 ```
+
+### Adding New Workflows
+
+Create a new file in `.devsquad/workflows/` and prefix it with `squad.`:
+
+```bash
+touch .devsquad/workflows/squad.audit.md
+```
+
+```markdown
+---
+description: Performs a full system security audit.
+---
+
+# Workflow: Security Audit
+
+1. **Phase 1**: `@Senior-Security-Engineer` reviews the current `gaps.md` inventory.
+2. **Phase 2**: `@QA-Tester` generates penetration testing scenarios.
+3. **Phase 3**: Hand-off to `@Technical-Writer` to generate `audit-report.md`.
+```
+
+Whenever you type `/squad.audit`, the agent will read this script and execute the phases.
 
 ### Re-running the Installer
 
