@@ -18,7 +18,8 @@ def test_installation_windsurf_ide_native():
             "--project", str(tmp_path),
             "--ide", "windsurf",
             "--model", "ide-native",
-            "--os", "linux"
+            "--os", "linux",
+            "--kb", "docs/kb"
         ]
         
         result = run_cli(args, cwd)
@@ -42,7 +43,8 @@ def test_installation_vscode_claude_code():
             "--project", str(tmp_path),
             "--ide", "vscode",
             "--model", "claude-code",
-            "--os", "macos"
+            "--os", "macos",
+            "--kb", "docs/kb"
         ]
         
         result = run_cli(args, cwd)
@@ -69,7 +71,8 @@ def test_no_overwrite():
             "--project", str(tmp_path),
             "--ide", "windsurf",
             "--model", "ide-native",
-            "--os", "linux"
+            "--os", "linux",
+            "--kb", "docs/kb"
         ]
         
         result = run_cli(args, cwd)

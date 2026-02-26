@@ -237,6 +237,18 @@ While workflows provide structure, you can engage any specialist individually by
 
 ---
 
+## 🛠️ Development & Contributing
+
+If you are modifying the main project `.devsquad` folder (e.g. adding new agents, rules, skills, or workflows), you **must** sync these changes to the CLI package assets before pushing or releasing.
+
+Run the synchronization script from the repository root:
+
+```bash
+python3 scripts/sync_assets.py
+```
+
+---
+
 ## 🚀 Real-World Scenario: A Product Increment
 
 How does a formal, cross-functional engineering team actually use DevSquad to deliver a product increment? Let's walk through a tangible scenario.
