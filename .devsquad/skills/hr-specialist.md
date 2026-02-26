@@ -15,7 +15,7 @@ The HR Specialist skill equips an agent with the tools and psychological framewo
 
 - **Asset Archiving**: Can relocate recursive directory structures while maintaining internal link integrity.
 - **Environment Detection**: Knows which ignore files and installation commands (`npm`, `pip`, `uvx`) apply to the current session.
-- **Context Management**: Can synthesize `.devsquad/devsquad-settings.json` to identify role descriptions and historical squad data.
+- **Context Management**: Must synthesize exclusively from `.devsquad/devsquad-settings.json`. **DO NOT** use `project.md` or `specs/project.md` as they are deprecated.
 
 ## 4. Protocols
 

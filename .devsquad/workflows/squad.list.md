@@ -10,20 +10,22 @@ To provide a transparent overview of the current squad composition, talent pool,
 
 ## 2. Steps
 
-### Step 1: Data Gathering
+### Step 1: Data Gathering (MANDATORY JSON SOURCE)
 
-- Read `squad.active_agents` from `.devsquad/devsquad-settings.json`.
-- Read `squad.talent_pool` from `.devsquad/devsquad-settings.json`.
-- Read `squad.graveyard` from `.devsquad/devsquad-settings.json` and `.devsquad/fired/` directory.
-- Extract `responsibility` and `status` for each.
+- **DO NOT** search for or reference `project.md` or `specs/project.md`. These are deprecated and deleted.
+- **MUST** read exclusively from `.devsquad/devsquad-settings.json`.
+- Read `squad.active_agents`.
+- Read `squad.talent_pool`.
+- Read `squad.graveyard` (Note: This key may be optional or empty; skip gracefully if not found).
+- Check `.devsquad/fired/` directory for historical context.
 
-### Step 2: Report Generation
+### Step 2: Report Generation (3 MANDATORY SECTIONS)
 
-Present a series of formatted tables:
+Present the output in three distinct sections:
 
-- **Active Squad**: ID, Responsibility/Role Description.
-- **Talent Pool**: ID, Responsibility/Role Description (showing what is available to hire).
-- **Fired Archive**: Name, Role Description, Dismissal Date (if available), Location in `fired/`.
+1.  **ACTIVE SQUAD**: Table with ID and Responsibility. (Sourced from `squad.active_agents`).
+2.  **TALENT POOL**: Table with ID and Responsibility. (Sourced from `squad.talent_pool`).
+3.  **FIRED ARCHIVE**: List or table of archived agents. (Sourced from `squad.graveyard` and `fired/` directory).
 
 ## 3. Definition of Done
 
