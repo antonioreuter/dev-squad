@@ -12,9 +12,9 @@ To provide a transparent overview of the current squad composition and historica
 
 ### Step 1: Data Gathering
 
-- Read `project.md` active squad section.
-- Read `.devsquad/fired/` directory to identify historical employees.
-- Extract one-line descriptions/competencies for each.
+- Read `active_agents` from `.devsquad/devsquad-settings.json`.
+- Read `graveyard` from `.devsquad/devsquad-settings.json` and `.devsquad/fired/` directory.
+- Extract `responsibility` and `status` for each.
 
 ### Step 2: Report Generation
 

@@ -32,7 +32,7 @@ In DevSquad, Tools (MCP Servers) are not owned by Agents, but by **Skills**. Thi
 
 ## 4. Scope
 
-- **Agents:** Refer to the roles defined in the `project.md` Virtual Squad section and the mindset rules in `.devsquad/rules/`.
+- **Agents:** Refer to the roles defined in the `.devsquad/devsquad-settings.json` active_agents section and the mindset rules in `.devsquad/rules/`.
 - **Skills:** Refer to the files in `.devsquad/skills/`.
 - **Workflows:** Refer to the scripts in `.devsquad/workflows/`.
 

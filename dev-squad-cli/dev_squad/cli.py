@@ -155,11 +155,16 @@ def deploy_assets(dest_path: Path, sys_os, ide, model):
             shutil.copytree(source_dir, target_dir, dirs_exist_ok=True)
             console.print("[green]✓ DevSquad brain successfully deployed.[/]")
             
-            # Explicit verification for templates
             if (source_dir / "templates").exists():
                 console.print("[green]✓ Documentation templates installed.[/]")
             else:
                 console.print("[yellow]! Note: No documentation templates found in source brain.[/]")
+            
+            # Explicit verification for settings
+            if (source_dir / "devsquad-settings.json").exists():
+                console.print("[green]✓ Default squad registry initialized.[/]")
+            else:
+                console.print("[yellow]! Warning: No default squad registry found in source brain.[/]")
         else:
             console.print("[red bold]Error: .devsquad assets not found in package or dev path.[/]")
             sys.exit(1)

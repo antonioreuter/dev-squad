@@ -43,11 +43,11 @@ Present the following to the `@Human-Leader`:
     - Copy global templates from `.devsquad/templates/` to the project if not present.
     - If hiring from an addon, copy `templates/` from the addon directory to the active project.
   - **Social Update**: Iterate through existing active agents and add the new hire to their `collaborates` list if applicable.
-- Update `project.md` active squad table.
+- **Registry Sync**: Update `active_agents` in `.devsquad/devsquad-settings.json`.
 
 ## 3. Definition of Done
 
 - Assets are live in standard paths.
 - MCP tools are installed and configured.
 - `devsquad-settings.json` is updated with the new agent and **new peer links established** in the collaboration lists of existing squad members.
-- `project.md` updated with Name, Description, and Active status.
+- `devsquad-settings.json` updated with Name, Description, and Active status.

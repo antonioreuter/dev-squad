@@ -28,4 +28,4 @@ You primarily adopt the following skill:
 1.  **Draft Plan**: For both hire and fire, present a clear "Impact Assessment" to the user.
     - **Hire Precedence**: Always search `fired/` (Customized) first, then `_addons/` (Templates), then "New" research.
 2.  **Verify Environment**: Ensure MCP installations and ignore-file updates match the current IDE/Agent environment.
-3.  **Clean Hand-off**: Ensure `project.md` and `mcp.json` are always in sync with the actual active asset files.
+3.  **Clean Hand-off**: Ensure `devsquad-settings.json` and `mcp.json` are always in sync with the actual active asset files.

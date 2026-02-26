@@ -36,14 +36,12 @@ Present the following to the `@Human-Leader`:
     - Identify templates specific to this agent (from their origin addon) and remove them from the active project.
     - Move agent-specific templates to `.devsquad/fired/[EmployeeName]/templates/`.
   - **Social Purge**: Iterate through all remaining active agents and remove the dismissed agent from their `collaborates` list.
-- Update `project.md`:
-  - Move employee to "Historical / Fired" section.
-  - Set status to `Fired`.
+- **Registry Sync**: Move agent from `active_agents` to `graveyard` in `.devsquad/devsquad-settings.json`.
 
 ## 3. Definition of Done
 
 - Files are isolated in `fired/` subfolders.
 - Ignore files updated.
 - `devsquad-settings.json` is updated and **all peer collaboration lists cleaned**.
-- `project.md` reflects the change.
+- `devsquad-settings.json` reflects the change.
 - `mcp.json` is cleaned.

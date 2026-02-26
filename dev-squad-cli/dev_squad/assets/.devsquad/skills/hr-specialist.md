@@ -15,7 +15,7 @@ The HR Specialist skill equips an agent with the tools and psychological framewo
 
 - **Asset Archiving**: Can relocate recursive directory structures while maintaining internal link integrity.
 - **Environment Detection**: Knows which ignore files and installation commands (`npm`, `pip`, `uvx`) apply to the current session.
-- **Context Management**: Can synthesize `project.md` to identify role descriptions and historical squad data.
+- **Context Management**: Can synthesize `.devsquad/devsquad-settings.json` to identify role descriptions and historical squad data.
 
 ## 4. Protocols
 
@@ -28,7 +28,7 @@ The HR Specialist skill equips an agent with the tools and psychological framewo
     - Move files to `.devsquad/fired/[EmployeeName]/`.
     - Update current environment ignore files.
     - Disable associated MCPs in `mcp.json`.
-    - Update `project.md` status to "Fired".
+    - Update `devsquad-settings.json` by moving agent to `graveyard` and removing from `active_agents`.
 
 ### `@hr-specialist.hire`
 
@@ -41,4 +41,4 @@ The HR Specialist skill equips an agent with the tools and psychological framewo
     - Deploy files.
     - Install tools if missing.
     - Enable MCPs in `mcp.json`.
-    - Update `project.md` with role description and status.
+    - Update `devsquad-settings.json` `active_agents` with role description and set status to "active".

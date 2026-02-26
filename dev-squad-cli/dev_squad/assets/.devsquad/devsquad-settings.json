@@ -1,0 +1,151 @@
+{
+  "project_id": "9e80b5e5-b896-4b29-8463-8e31bd36da1d",
+  "environment": {
+    "ide": "Antigravity",
+    "os": "linux",
+    "path": "/home/antonioreuter/repositories/projects/dev-squad"
+  },
+  "squad": {
+    "name": "DevSquad",
+    "version": "1.2.0",
+    "active_agents": {
+      "project-manager": {
+        "status": "active",
+        "responsibility": "Vision, Orchestration, and Strategic Leadership",
+        "collaborates": [
+          "solution-architect",
+          "product-owner",
+          "human-leader",
+          "qa-tester",
+          "hr-manager"
+        ]
+      },
+      "solution-architect": {
+        "status": "active",
+        "responsibility": "Technical integrity, ADRs, and Pattern Enforcement",
+        "collaborates": [
+          "project-manager",
+          "lead-developer",
+          "devops-sre",
+          "security-engineer"
+        ]
+      },
+      "product-owner": {
+        "status": "active",
+        "responsibility": "Business Value, ROI, and Backlog Prioritization",
+        "collaborates": ["human-leader", "project-manager"]
+      },
+      "hr-manager": {
+        "status": "active",
+        "responsibility": "Specialist Onboarding, Firing, and Registry Management",
+        "collaborates": ["human-leader", "project-manager"]
+      },
+      "lead-developer": {
+        "status": "active",
+        "responsibility": "Implementation Patterns and Technical Consistency",
+        "collaborates": ["solution-architect", "qa-tester", "devops-sre"]
+      },
+      "feature-architect": {
+        "status": "active",
+        "responsibility": "Structural Decomposition and Spec Hierarchy",
+        "collaborates": [
+          "project-manager",
+          "solution-architect",
+          "lead-developer"
+        ]
+      },
+      "devops-sre": {
+        "status": "active",
+        "responsibility": "CI/CD, Infrastructure as Code, and Observability",
+        "collaborates": [
+          "solution-architect",
+          "lead-developer",
+          "security-engineer"
+        ]
+      },
+      "qa-tester": {
+        "status": "active",
+        "responsibility": "Test Strategy, Automation, and Edge-Case Detection",
+        "collaborates": [
+          "project-manager",
+          "lead-developer",
+          "solution-architect"
+        ]
+      },
+      "security-engineer": {
+        "status": "active",
+        "responsibility": "Threat Modeling and Security by Design",
+        "collaborates": [
+          "solution-architect",
+          "devops-sre",
+          "compliance-auditor"
+        ]
+      },
+      "compliance-auditor": {
+        "status": "active",
+        "responsibility": "Regulatory Alignment (HIPAA, GDPR) and PII Protection",
+        "collaborates": ["security-engineer", "project-manager"]
+      },
+      "adhoc-specialist": {
+        "status": "active",
+        "responsibility": "Technical debt, refactors, and precision surgical fixes.",
+        "collaborates": [
+          "project-manager",
+          "solution-architect",
+          "human-leader"
+        ]
+      },
+      "incident-manager": {
+        "status": "active",
+        "responsibility": "Outage Triage, MTTR Optimization, and RCA",
+        "collaborates": ["devops-sre", "lead-developer", "human-leader"]
+      }
+    },
+    "talent_pool": {
+      "dfmea-specialist": {
+        "status": "available",
+        "origin": "_addons",
+        "responsibility": "Proactive Risk Management and Failure Mode Analysis",
+        "potential_peers": [
+          "solution-architect",
+          "qa-tester",
+          "project-manager"
+        ]
+      },
+      "aws-specialist": {
+        "status": "available",
+        "origin": "_addons",
+        "responsibility": "Cloud Infrastructure, IAM, and Compute",
+        "potential_peers": [
+          "solution-architect",
+          "devops-sre",
+          "project-manager"
+        ]
+      },
+      "aws-database-specialist": {
+        "status": "available",
+        "origin": "_addons",
+        "responsibility": "Data Persistence, SQL/NoSQL, and Storage",
+        "potential_peers": ["solution-architect", "aws-specialist"]
+      },
+      "fhir-specialist": {
+        "status": "available",
+        "origin": "_addons",
+        "responsibility": "Healthcare Interoperability (HL7 FHIR)",
+        "potential_peers": ["solution-architect", "compliance-auditor"]
+      },
+      "gdpr-specialist": {
+        "status": "available",
+        "origin": "_addons",
+        "responsibility": "EU Data Privacy and Compliance",
+        "potential_peers": ["solution-architect", "security-engineer"]
+      },
+      "hipaa-specialist": {
+        "status": "available",
+        "origin": "_addons",
+        "responsibility": "US Healthcare Privacy (HIPAA)",
+        "potential_peers": ["solution-architect", "compliance-auditor"]
+      }
+    }
+  }
+}
