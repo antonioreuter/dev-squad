@@ -2,7 +2,7 @@
 
 **Trigger:** `/squad.hire [Name] "[Role Description]" "[Tool list]"`
 **Category:** HR Workflow
-**Authority:** `@HR-Manager` only.
+**Recommended Agent:** `@HR-Manager`.
 
 ## 1. Purpose
 
@@ -38,12 +38,12 @@ Present the following to the `@Human-Leader`:
 - Execute tool installations.
 - Update `.devsquad/mcp.json` with new configurations.
 - **Social-Aware Sync**:
-  - Add the new specialist to `.devsquad/devsquad-settings.json` with `status: active`.
+  - Add the new specialist to `.devsquad/devsquad-settings.json` under `squad.active_agents` with `status: active`.
   - **Template Deployment**:
     - Copy global templates from `.devsquad/templates/` to the project if not present.
     - If hiring from an addon, copy `templates/` from the addon directory to the active project.
   - **Social Update**: Iterate through existing active agents and add the new hire to their `collaborates` list if applicable.
-- **Registry Sync**: Update `active_agents` in `.devsquad/devsquad-settings.json`.
+- **Registry Sync**: Update `squad.active_agents` in `.devsquad/devsquad-settings.json`.
 
 ## 3. Definition of Done
 

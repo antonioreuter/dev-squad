@@ -28,7 +28,7 @@ The HR Specialist skill equips an agent with the tools and psychological framewo
     - Move files to `.devsquad/fired/[EmployeeName]/`.
     - Update current environment ignore files.
     - Disable associated MCPs in `mcp.json`.
-    - Update `devsquad-settings.json` by moving agent to `graveyard` and removing from `active_agents`.
+    - Update `devsquad-settings.json` by moving agent from `squad.active_agents` to `squad.graveyard`.
 
 ### `@hr-specialist.hire`
 
@@ -41,4 +41,4 @@ The HR Specialist skill equips an agent with the tools and psychological framewo
     - Deploy files.
     - Install tools if missing.
     - Enable MCPs in `mcp.json`.
-    - Update `devsquad-settings.json` `active_agents` with role description and set status to "active".
+    - Update `devsquad-settings.json` `squad.active_agents` with role description and set status to "active".

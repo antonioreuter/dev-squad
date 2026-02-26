@@ -2,19 +2,19 @@
 
 **Trigger:** `/squad.list`
 **Category:** HR Workflow
-**Authority:** `@HR-Manager` only.
+**Recommended Agent:** `@HR-Manager`.
 
 ## 1. Purpose
 
-To provide a transparent overview of the current squad composition and historical archive.
+To provide a transparent overview of the current squad composition, talent pool, and historical archive.
 
 ## 2. Steps
 
 ### Step 1: Data Gathering
 
-- Read `active_agents` from `.devsquad/devsquad-settings.json`.
-- Read `talent_pool` from `.devsquad/devsquad-settings.json`.
-- Read `graveyard` from `.devsquad/devsquad-settings.json` and `.devsquad/fired/` directory.
+- Read `squad.active_agents` from `.devsquad/devsquad-settings.json`.
+- Read `squad.talent_pool` from `.devsquad/devsquad-settings.json`.
+- Read `squad.graveyard` from `.devsquad/devsquad-settings.json` and `.devsquad/fired/` directory.
 - Extract `responsibility` and `status` for each.
 
 ### Step 2: Report Generation

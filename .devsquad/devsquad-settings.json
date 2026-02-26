@@ -102,9 +102,9 @@
       }
     },
     "talent_pool": {
-      "dfmea-specialist": {
+      "quality-dfmea": {
         "status": "available",
-        "origin": "_addons",
+        "origin": "_addons/quality-dfmea",
         "responsibility": "Proactive Risk Management and Failure Mode Analysis",
         "potential_peers": [
           "solution-architect",
@@ -112,9 +112,9 @@
           "project-manager"
         ]
       },
-      "aws-specialist": {
+      "cloud-aws": {
         "status": "available",
-        "origin": "_addons",
+        "origin": "_addons/cloud-aws",
         "responsibility": "Cloud Infrastructure, IAM, and Compute",
         "potential_peers": [
           "solution-architect",
@@ -122,27 +122,27 @@
           "project-manager"
         ]
       },
-      "aws-database-specialist": {
+      "aws-database": {
         "status": "available",
-        "origin": "_addons",
+        "origin": "_addons/cloud-aws",
         "responsibility": "Data Persistence, SQL/NoSQL, and Storage",
-        "potential_peers": ["solution-architect", "aws-specialist"]
+        "potential_peers": ["solution-architect", "cloud-aws"]
       },
-      "fhir-specialist": {
+      "healthcare-fhir": {
         "status": "available",
-        "origin": "_addons",
+        "origin": "_addons/healthcare-fhir",
         "responsibility": "Healthcare Interoperability (HL7 FHIR)",
         "potential_peers": ["solution-architect", "compliance-auditor"]
       },
-      "gdpr-specialist": {
+      "compliance-gdpr": {
         "status": "available",
-        "origin": "_addons",
+        "origin": "_addons/compliance-gdpr",
         "responsibility": "EU Data Privacy and Compliance",
         "potential_peers": ["solution-architect", "security-engineer"]
       },
-      "hipaa-specialist": {
+      "healthcare-hipaa": {
         "status": "available",
-        "origin": "_addons",
+        "origin": "_addons/healthcare-hipaa",
         "responsibility": "US Healthcare Privacy (HIPAA)",
         "potential_peers": ["solution-architect", "compliance-auditor"]
       }
