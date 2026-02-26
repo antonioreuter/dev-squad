@@ -13,17 +13,21 @@ To provide a transparent overview of the current squad composition and historica
 ### Step 1: Data Gathering
 
 - Read `active_agents` from `.devsquad/devsquad-settings.json`.
+- Read `talent_pool` from `.devsquad/devsquad-settings.json`.
 - Read `graveyard` from `.devsquad/devsquad-settings.json` and `.devsquad/fired/` directory.
 - Extract `responsibility` and `status` for each.
 
 ### Step 2: Report Generation
 
-Present a formatted table:
+Present a series of formatted tables:
 
-- **Active Squad**: Name, Role Description, Start Date.
+- **Active Squad**: ID, Responsibility/Role Description.
+- **Talent Pool**: ID, Responsibility/Role Description (showing what is available to hire).
 - **Fired Archive**: Name, Role Description, Dismissal Date (if available), Location in `fired/`.
 
 ## 3. Definition of Done
 
-- A clear, readable table is presented in the chat.
-- All active and archived employees are accounted for.
+- A clear, readable set of tables is presented in the chat.
+- The talent pool is listed with descriptions.
+- The active squad list is concise and excludes hiring dates.
+- All active, available, and archived employees are accounted for.

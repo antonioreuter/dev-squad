@@ -14,7 +14,7 @@ def sync_assets():
     print(f"Syncing {devsquad_src} to {cli_assets_dir}...")
     
     # Define what needs to be synced inside the .devsquad folder for the internal installer
-    folders_to_sync = ["agents", "rules", "skills", "workflows", "templates"]
+    folders_to_sync = ["agents", "rules", "skills", "workflows", "templates", "_addons"]
     
     # Also sync mcp.json and settings if they exist at the root of .devsquad
     files_to_sync = ["mcp.json.sample", "devsquad-settings.json"]

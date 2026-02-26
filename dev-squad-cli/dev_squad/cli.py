@@ -151,7 +151,7 @@ def deploy_assets(dest_path: Path, sys_os, ide, model):
             console.print(f"[blue]Brain not found. Deploying .devsquad assets to {dest_path}...[/]")
         
         # surgical update: copy core folders (overwrite)
-        core_folders = ["rules", "skills", "workflows", "templates"]
+        core_folders = ["rules", "skills", "workflows", "templates", "_addons"]
         for folder in core_folders:
             src_folder = source_dir / folder
             if src_folder.exists():
