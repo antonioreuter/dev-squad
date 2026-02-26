@@ -134,40 +134,40 @@ Stay modular, stay strict, and protect the codebase.
 
 def deploy_assets(dest_path: Path, sys_os, ide, model):
     target_dir = dest_path / ".devsquad"
-    if not target_dir.exists():
-        console.print(f"[blue]Brain not found. Deploying .devsquad assets to {dest_path}...[/]")
+    # Smart Discovery: 
+    # 1. Check internal package assets (Production)
+    # 2. Check repository root (Development)
+    internal_src = Path(__file__).parent / "assets" / ".devsquad"
+    dev_src = Path(__file__).parent.parent.parent / ".devsquad"
+    
+    source_dir = None
+    if internal_src.exists():
+        source_dir = internal_src
+    elif dev_src.exists():
+        source_dir = dev_src
         
-        # Smart Discovery: 
-        # 1. Check internal package assets (Production)
-        # 2. Check repository root (Development)
-        internal_src = Path(__file__).parent / "assets" / ".devsquad"
-        dev_src = Path(__file__).parent.parent.parent / ".devsquad"
+    if source_dir:
+        if not target_dir.exists():
+            console.print(f"[blue]Brain not found. Deploying .devsquad assets to {dest_path}...[/]")
         
-        source_dir = None
-        if internal_src.exists():
-            source_dir = internal_src
-            console.print("[dim]  (Source: Internal Package Assets)[/]")
-        elif dev_src.exists():
-            source_dir = dev_src
-            console.print("[dim]  (Source: Development Repository Root)[/]")
-            
-        if source_dir:
-            shutil.copytree(source_dir, target_dir, dirs_exist_ok=True)
-            console.print("[green]✓ DevSquad brain successfully deployed.[/]")
-            
-            if (source_dir / "templates").exists():
-                console.print("[green]✓ Documentation templates installed.[/]")
-            else:
-                console.print("[yellow]! Note: No documentation templates found in source brain.[/]")
-            
-            # Explicit verification for settings
-            if (source_dir / "devsquad-settings.json").exists():
-                console.print("[green]✓ Default squad registry initialized.[/]")
-            else:
-                console.print("[yellow]! Warning: No default squad registry found in source brain.[/]")
-        else:
-            console.print("[red bold]Error: .devsquad assets not found in package or dev path.[/]")
-            sys.exit(1)
+        # surgical update: copy core folders (overwrite)
+        core_folders = ["rules", "skills", "workflows", "templates"]
+        for folder in core_folders:
+            src_folder = source_dir / folder
+            if src_folder.exists():
+                shutil.copytree(src_folder, target_dir / folder, dirs_exist_ok=True)
+        
+        # config files: Copy ONLY if missing (preserve user settings)
+        config_files = ["mcp.json", "devsquad-settings.json"]
+        for cfile in config_files:
+            src_file = source_dir / cfile
+            dest_file = target_dir / cfile
+            if src_file.exists() and not dest_file.exists():
+                shutil.copy2(src_file, dest_file)
+                console.print(f"[green]✓ Initialized default {cfile}.[/]")
+    else:
+        console.print("[red bold]Error: .devsquad assets not found in package or dev path.[/]")
+        sys.exit(1)
 
     # 1. Base IDE pointer
     if ide == "Antigravity":
@@ -631,7 +631,7 @@ def cmd_scan(project_path: Path):
 
 def main():
     parser = argparse.ArgumentParser(description="DevSquad Installer Wizard")
-    parser.add_argument("command", nargs="?", choices=["install", "scan"], default="install", help="Command to run")
+    parser.add_argument("command", nargs="?", choices=["install", "scan", "update"], default="install", help="Command to run")
     parser.add_argument("--project", "-p", help="Destination path for installation (default: asks user)")
     parser.add_argument("--ide", help=f"Target IDE ({', '.join(IDE_CHOICES.keys())})")
     parser.add_argument("--model", help=f"AI Model / Extension ({', '.join(MODEL_CHOICES.keys())})")
@@ -639,11 +639,23 @@ def main():
     parser.add_argument("--kb", help="Path to Knowledge Base directory")
     args = parser.parse_args()
 
-    # Handle direct scan command
+    # Handle direct commands
     if args.command == "scan":
         project_dir = args.project or os.getcwd()
         dest_path = Path(project_dir).resolve()
         cmd_scan(dest_path)
+        return
+    
+    if args.command == "update":
+        project_dir = args.project or os.getcwd()
+        dest_path = Path(project_dir).resolve()
+        if not (dest_path / ".devsquad").exists():
+            console.print("[red]Error: No .devsquad directory found. Please run 'install' first.[/]")
+            return
+            
+        console.print(f"\n[bold blue]🔄 Updating DevSquad assets at {dest_path}...[/]")
+        deploy_assets(dest_path, None, None, None)
+        console.print("[bold green]✓ Update complete! Your local configuration was preserved.[/]\n")
         return
 
     try:

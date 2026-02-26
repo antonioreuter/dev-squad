@@ -85,6 +85,7 @@ Workflows are **structured multi-step processes** triggered by a slash command. 
 | `/squad.deploy [service?]`      | Full safe release to production                          |
 | `/squad.observe [service]`      | Set up full observability (OTel, SLOs, alarms, RUM)      |
 | `/squad.incident [description]` | Structured incident response: triage → RCA → post-mortem |
+| `/squad.update`                 | Surgical update of core rules and workflows.             |
 
 ---
 
@@ -741,7 +742,7 @@ bash install.sh  # Linux/macOS
 DevSquad agents follow strict orchestration scripts. When you trigger a command, the agent reads the corresponding `.md` file in `.devsquad/workflows/`.
 
 - **Strategy**: `/squad.plan`, `/squad.split`, `/squad.list`
-- **Execution**: `/squad.preflight`, `/squad.implement`, `/squad.finish`, `/squad.adhoc`
+- **Execution**: `/squad.preflight`, `/squad.implement`, `/squad.finish`, `/squad.adhoc`, `/squad.update`
 - **Ops**: `/squad.deploy`, `/squad.observe`, `/squad.incident`
 - **HR**: `/squad.hire`, `/squad.fire`
 
@@ -755,6 +756,7 @@ The `dev-squad` command is your administrative hub.
 | :--- | :--- |
 | `dev-squad install` | Deploys/Updates core DevSquad assets and IDE pointers. |
 | `dev-squad scan` | Performs a deep repository scan and updates the inventory. |
+| `dev-squad update` | Surgically refreshes core rules/skills/workflows while preserving config. |
 | `dev-squad --project [path]` | Runs the wizard on a specific target directory. |
 
 **Management Menu (Existing Projects)**:

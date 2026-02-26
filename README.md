@@ -134,6 +134,7 @@ DevSquad operates through standardized **Boards** that synchronize multiple agen
 | `/squad.plan [idea]`   | Translates raw ideas into hardened BDD Acceptance Criteria. | `@Project-Manager`, `@Solution-Architect`, `@Product-Owner` |
 | `/squad.split`         | Decomposes a feature into a structured `spec/` hierarchy.   | `@Feature-Architect`, `@Solution-Architect`                 |
 | `/squad.list`          | Lists all active agents, projects, and defined specs.       | `@Project-Manager`                                          |
+| `/squad.update`        | Surgical update of core rules and workflows.                | `@HR-Manager`, `@Project-Manager`                           |
 
 > **Macro vs Micro Planning:** Use `/squad.split` to generate the physical filesystem "bookshelves" (`spec/` folders) for an Epic. Then use the `task-generator` skill on specific Use Cases to write the actionable "books" (T001 checklist tasks) that developers will execute.
 
